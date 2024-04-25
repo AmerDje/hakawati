@@ -1,0 +1,13 @@
+{
+    "app_name": "Hakawati App",
+    "opps": "Oups !",
+    "please_check_your_internet_connection_and_try_again": "Veuillez vérifier votre connexion internet et réessayer",
+    "try_again": "Essayer encore",
+    "welcome": "Bienvenue",
+    "ok": "D'accord",
+    "cancel": "Annuler",
+    "something_went_wrong": "Quelque chose s'est mal passé",
+    "reload_screen": "Recharger l'écran",
+    "want_to_logout": "Voulez-vous vous deconnecter ?",
+    "logout": "Se deconnecter"
+}

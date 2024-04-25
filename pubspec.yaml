@@ -7,9 +7,12 @@ environment:
   sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.5
+  flutter_localizations:
+    sdk: flutter
   shared_preferences: ^2.2.3
 
 dev_dependencies:
@@ -19,3 +22,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  # Assets  
+  assets:
+    - assets/lang/ar.json
+    - assets/lang/en.json
+    - assets/lang/fr.json
