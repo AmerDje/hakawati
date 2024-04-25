@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hakawati/core/utils/cache/prefs.dart';
 
-void main() {
+import 'config/theme/theme.dart';
+import 'features/home/presentation/home.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Prefs.init();
+
   runApp(const MainApp());
 }
 
@@ -9,12 +17,21 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello Hakawati!'),
-        ),
-      ),
+    return BlocProvider(
+      create: (_) => ThemeCubit(platformBrightness: View.of(context).platformDispatcher.platformBrightness),
+      child: Builder(builder: (context) {
+        return BlocBuilder<ThemeCubit, ThemeMode>(
+          buildWhen: (previous, current) => previous != current,
+          builder: (_, themeMode) {
+            return MaterialApp(
+              theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              themeMode: themeMode,
+              home: const HomeView(),
+            );
+          },
+        );
+      }),
     );
   }
 }
