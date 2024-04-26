@@ -6,6 +6,7 @@ import 'core/utils/strings.dart';
 
 import 'config/theme/theme.dart';
 import 'features/home/presentation/home.dart';
+import 'features/settings/presentation/manager/settings_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,9 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (_) => SettingsCubit(),
+        ),
         BlocProvider(
           create: (_) => ThemeCubit(platformBrightness: WidgetsBinding.instance.window.platformBrightness),
         ),
@@ -31,12 +35,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, ThemeMode>(
+    return BlocBuilder<LocalizationCubit, Locale>(
       buildWhen: (previous, current) => previous != current,
-      builder: (_, themeMode) {
-        return BlocBuilder<LocalizationCubit, Locale>(
+      builder: (_, local) {
+        return BlocBuilder<ThemeCubit, ThemeMode>(
           buildWhen: (previous, current) => previous != current,
-          builder: (_, local) {
+          builder: (_, themeMode) {
             return MaterialApp(
               title: Strings.appName,
               locale: local,

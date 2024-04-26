@@ -12,4 +12,6 @@ abstract class Strings {
   static const String arabicCode = 'ar';
   static const String frenchCode = 'fr';
   static const String locale = 'locale';
+  static const String isLanguageSelected = 'isLanguageSelected';
+  static const String isOnboardingClosed = 'isOnboardingClosed';
 }
