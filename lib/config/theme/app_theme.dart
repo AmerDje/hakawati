@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hakawati/core/utils/colors.dart';
 import 'package:hakawati/core/utils/constants.dart';
 
 abstract class AppTheme {
 // Dark Theme
   static ThemeData darkTheme = ThemeData(
-    //fontFamily: 'ChrustyRock',
-    primarySwatch: kPrimaryColor,
+    brightness: Brightness.dark,
+    fontFamily: kQuicksand,
+    primaryColor: AppColors.primaryColorDark,
+    secondaryHeaderColor: AppColors.secondaryColorDark,
     textTheme: const TextTheme(
         bodyMedium: TextStyle(
       fontSize: 15.0,
@@ -32,7 +35,7 @@ abstract class AppTheme {
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: kPrimaryColor,
+      selectedItemColor: AppColors.primaryColorDark,
       unselectedItemColor: Colors.grey,
       backgroundColor: Color(0XFF333739),
     ),
@@ -40,13 +43,15 @@ abstract class AppTheme {
 
 // Light Theme
   static ThemeData lightTheme = ThemeData(
-    // fontFamily: 'ChrustyRock',
+    brightness: Brightness.light,
+    fontFamily: kQuicksand,
     textTheme: const TextTheme(
         bodyMedium: TextStyle(
       fontSize: 15.0,
       color: Colors.black,
     )),
-    primarySwatch: kPrimaryColor,
+    primaryColor: AppColors.primaryColorLight,
+    secondaryHeaderColor: AppColors.secondaryColorLight,
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
       systemOverlayStyle: SystemUiOverlayStyle(
@@ -67,7 +72,7 @@ abstract class AppTheme {
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: kPrimaryColor,
+      selectedItemColor: AppColors.primaryColorLight,
       unselectedItemColor: Colors.grey,
       backgroundColor: Colors.white,
     ),
