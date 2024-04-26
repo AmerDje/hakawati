@@ -9,5 +9,20 @@
     "something_went_wrong": "Quelque chose s'est mal passé",
     "reload_screen": "Recharger l'écran",
     "want_to_logout": "Voulez-vous vous deconnecter ?",
-    "logout": "Se deconnecter"
+    "logout": "Se deconnecter",
+
+
+    "title_1": "Bienvenue dans Hakawati!",
+    "description_1": "Découvrez de nouvelles histoires du monde entier",
+    "title_2": "Partagez vos propres histoires",
+    "description_2": "Rejoignez notre communauté de conteurs et partagez vos propres histoires",
+    "title_3": "Commencer",
+    "description_3": "Inscrivez-vous maintenant pour commencer à explorer et partager des histoires",
+
+    "change_language": "Changer de langue",
+    "apply": "Appliquer",
+    "get_started": "Commencer",
+    "already_have_account": "Vous avez déjà un compte",
+
+    "home": {}
 }

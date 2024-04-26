@@ -1,20 +1,49 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hakawati/core/utils/cache/prefs.dart';
-import 'package:hakawati/core/utils/strings.dart';
+import 'package:flutter/material.dart';
+import 'package:hakawati/features/settings/presentation/manager/settings_state.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:hakawati/core/utils/constants.dart';
 
-part 'settings_state.dart';
+class SettingsCubit extends HydratedCubit<SettingState> {
+  final Brightness platformBrightness;
+  SettingsCubit({required this.platformBrightness})
+      : super(const SettingState(
+          locate: kDefaultLocale,
+          themeMode: ThemeMode.system,
+          enableOnBoarding: false,
+          enableTranslation: true,
+        ));
 
-class SettingsCubit extends Cubit<SettingsState> {
-  SettingsCubit() : super(SettingsState.initial);
-
-  closeOnBoarding() async {
-    await Prefs.setBool(Strings.isOnboardingClosed, true);
-    emit(state.copyWith(isOnboardingClosed: true));
+  bool get isDarkMode {
+    if (state.themeMode == ThemeMode.system) {
+      return platformBrightness == Brightness.dark;
+    }
+    return state.themeMode == ThemeMode.dark;
   }
 
-  closeTranslation() async {
-    await Prefs.setBool(Strings.isLanguageSelected, true);
-    emit(state.copyWith(isLanguageSelected: true));
+  void closeOnBoarding() {
+    emit(state.copyWith(enableOnBoarding: false));
+  }
+
+  void closeTranslation() {
+    emit(state.copyWith(enableOnBoarding: true, enableTranslation: false));
+  }
+
+  void changeLanguage(String locate) {
+    emit(state.copyWith(locate: locate));
+  }
+
+  void toggleTheme() {
+    ThemeMode themeMode = (state.themeMode == ThemeMode.light) ? ThemeMode.dark : ThemeMode.light;
+    emit(state.copyWith(themeMode: themeMode));
+  }
+
+  @override
+  SettingState? fromJson(Map<String, dynamic> json) {
+    return SettingState.fromJson(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(SettingState state) {
+    return state.toJson();
   }
 }

@@ -3,21 +3,24 @@ import 'package:hakawati/features/settings/data/entities/onboarding_entity.dart'
 const kTransitionDuration = Duration(milliseconds: 250);
 const kWinterDrink = 'Winter Drink';
 const kQuicksand = 'Quicksand';
+const kLalezar = 'Lalezar';
+const kMarhey = 'Marhey';
+const kDefaultLocale = 'en';
 
 const List<OnboardingEntity> kOnboardingData = <OnboardingEntity>[
   OnboardingEntity(
-    title: 'Welcome to the app!',
-    description: 'Discover new stories from around the world',
+    title: 'title_1',
+    description: 'description_1',
     image: 'assets/images/onboarding1.png',
   ),
   OnboardingEntity(
-    title: 'Share your own stories',
-    description: 'Join our community of storytellers and share your own stories',
+    title: 'title_2',
+    description: 'description_2',
     image: 'assets/images/onboarding2.png',
   ),
   OnboardingEntity(
-    title: 'Get started',
-    description: 'Sign up now to start exploring and sharing stories',
+    title: 'title_3',
+    description: 'description_3',
     image: 'assets/images/onboarding3.png',
   ),
 ];

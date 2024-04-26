@@ -16,7 +16,7 @@ class CustomTextButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         btnText,
-        style: Styles.fontStyle14.copyWith(
+        style: Styles.fontStyle14(context).copyWith(
           decoration: TextDecoration.underline,
           decorationColor: Colors.yellow,
           color: Colors.yellow,

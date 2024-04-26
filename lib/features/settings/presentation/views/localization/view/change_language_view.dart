@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hakawati/config/localization/localization.dart';
+import 'package:hakawati/config/locale/locale.dart';
+import 'package:hakawati/core/utils/constants.dart';
 import 'package:hakawati/core/widgets/customs.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
 
-class ChangeLanguageScreen extends StatefulWidget {
-  const ChangeLanguageScreen({super.key});
+class ChangeLanguageView extends StatefulWidget {
+  const ChangeLanguageView({super.key});
 
   @override
-  State<ChangeLanguageScreen> createState() => _ChangeLanguageScreenState();
+  State<ChangeLanguageView> createState() => _ChangeLanguageViewState();
 }
 
-class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
+class _ChangeLanguageViewState extends State<ChangeLanguageView> {
   final List options = AppLocalizationsSetup.supportedLocales.map((e) => e.languageCode).toList();
-  String? _value = 'en';
+  String? _value = kDefaultLocale;
   final List _option = [];
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
             height: 15,
           ),
           Text(
-            translate('auth:change_language') ?? 'Change Language',
+            translate('settings:change_language') ?? 'Change Language',
             style: theme.textTheme.titleSmall,
           ),
           const SizedBox(
@@ -65,7 +66,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                         ListTile(
                           title: Text(
                             option,
-                            style: theme.textTheme.bodyText2?.copyWith(color: isSelect ? theme.primaryColor : null),
+                            style: theme.textTheme.bodyMedium?.copyWith(color: isSelect ? theme.primaryColor : null),
                           ),
                           trailing:
                               isSelect ? Icon(FontAwesomeIcons.check, color: theme.primaryColor) : const SizedBox(),
@@ -94,11 +95,11 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
             child: CustomElevatedButton(
               onPressed: () {
                 if (_value != null && _value != locate) {
-                  if (mounted) context.read<LocalizationCubit>().setLocale(Locale(_value!));
+                  if (mounted) context.read<SettingsCubit>().changeLanguage(_value!);
                 }
                 context.read<SettingsCubit>().closeTranslation();
               },
-              child: Text(translate('common:text_apply') ?? 'Apply'),
+              child: Text(translate('settings:apply') ?? 'Apply'),
             ),
           ),
         ],
