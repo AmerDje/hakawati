@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hakawati/config/theme/theme.dart';
+import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
 
 class ToggleTheme extends StatelessWidget {
   const ToggleTheme({super.key});
@@ -8,9 +8,9 @@ class ToggleTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SwitchListTile(
-      value: context.watch<ThemeCubit>().isDarkMode,
+      value: context.watch<SettingsCubit>().isDarkMode,
       onChanged: (value) {
-        context.read<ThemeCubit>().toggleTheme(isToggled: value);
+        context.read<SettingsCubit>().toggleTheme();
       },
       title: Text(
         "Dark Mode",

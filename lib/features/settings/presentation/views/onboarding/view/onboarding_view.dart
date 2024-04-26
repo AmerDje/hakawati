@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hakawati/config/locale/locale.dart';
 import 'package:hakawati/core/utils/colors.dart';
 import 'package:hakawati/core/utils/constants.dart';
 import 'package:hakawati/core/utils/extensions/media_query.dart';
@@ -38,6 +39,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final translate = AppLocalizations.of(context)!.translate;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -82,18 +84,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 CustomElevatedButton(
                     fixedSize: Size(context.width * .9, 50),
                     onPressed: () {
-                      //Navigator.of(context).pushNamed(Onboarding.routeName);
                       context.read<SettingsCubit>().closeOnBoarding();
                     },
                     child: Text(
-                      "Get Started",
-                      style: Styles.fontStyle16.copyWith(color: Theme.of(context).secondaryHeaderColor),
+                      translate("get_started") ?? "Get Started",
+                      style: Styles.fontStyle16(context).copyWith(color: Theme.of(context).secondaryHeaderColor),
                     )),
                 CustomTextButton(
                   onPressed: () {
                     context.read<SettingsCubit>().closeOnBoarding();
                   },
-                  btnText: "I already have an account",
+                  btnText: translate("already_have_account") ?? "Already have an account?",
                 )
               ],
             ),

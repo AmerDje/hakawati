@@ -1,29 +1,64 @@
-part of 'settings_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:equatable/equatable.dart';
+import 'package:hakawati/core/utils/constants.dart';
 
-class SettingsState extends Equatable {
-  static const initial = SettingsState._(
-    isLanguageSelected: false,
-    isOnboardingClosed: false,
-  );
+class SettingState extends Equatable {
+  final String locate;
+  final ThemeMode themeMode;
+  final bool enableOnBoarding;
+  final bool enableTranslation;
 
-  final bool isLanguageSelected;
-  final bool isOnboardingClosed;
-
-  const SettingsState._({
-    required this.isLanguageSelected,
-    required this.isOnboardingClosed,
+  const SettingState({
+    required this.locate,
+    required this.themeMode,
+    this.enableOnBoarding = false,
+    this.enableTranslation = false,
   });
 
-  SettingsState copyWith({
-    bool? isLanguageSelected,
-    bool? isOnboardingClosed,
+  static const SettingState empty = SettingState(
+    locate: kDefaultLocale,
+    themeMode: ThemeMode.system,
+    enableOnBoarding: false,
+    enableTranslation: false,
+  );
+
+  factory SettingState.fromJson(Map<String, dynamic> json) => _$SettingFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SettingToJson(this);
+
+  SettingState copyWith({
+    String? locate,
+    ThemeMode? themeMode,
+    bool? enableOnBoarding,
+    bool? enableTranslation,
   }) {
-    return SettingsState._(
-      isLanguageSelected: isLanguageSelected ?? this.isLanguageSelected,
-      isOnboardingClosed: isOnboardingClosed ?? this.isOnboardingClosed,
+    return SettingState(
+      locate: locate ?? this.locate,
+      themeMode: themeMode ?? this.themeMode,
+      enableOnBoarding: enableOnBoarding ?? this.enableOnBoarding,
+      enableTranslation: enableTranslation ?? this.enableTranslation,
     );
   }
 
   @override
-  List<Object?> get props => [isLanguageSelected, isOnboardingClosed];
+  List<Object> get props => [
+        locate,
+        themeMode,
+        enableOnBoarding,
+        enableTranslation,
+      ];
 }
+
+SettingState _$SettingFromJson(Map<String, dynamic> json) => SettingState(
+      locate: json['locate'] as String,
+      themeMode: ThemeMode.values[json['themeMode'] as int],
+      enableOnBoarding: (json['enableOnBoarding'] ?? false) as bool,
+      enableTranslation: (json['enableTranslation'] ?? false) as bool,
+    );
+
+Map<String, dynamic> _$SettingToJson(SettingState instance) => <String, dynamic>{
+      'locate': instance.locate,
+      'themeMode': instance.themeMode.index,
+      'enableOnBoarding': instance.enableOnBoarding,
+      'enableTranslation': instance.enableTranslation,
+    };

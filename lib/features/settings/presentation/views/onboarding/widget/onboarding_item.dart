@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hakawati/config/locale/locale.dart';
 import 'package:hakawati/core/utils/extensions/media_query.dart';
 import 'package:hakawati/core/utils/styles.dart';
 import 'package:hakawati/features/settings/data/entities/onboarding_entity.dart';
@@ -9,6 +10,7 @@ class OnboardingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translate = AppLocalizations.of(context)!.translate;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -21,11 +23,12 @@ class OnboardingItem extends StatelessWidget {
         const SizedBox(
           height: 5.0,
         ),
-        Text(onboardingEntity.title, style: Styles.fontStyle32),
+        Text(translate(onboardingEntity.title) ?? '', style: Styles.fontStyle32(context)),
         const SizedBox(
           height: 15.0,
         ),
-        Text(onboardingEntity.description, style: Styles.fontStyle16, textAlign: TextAlign.center),
+        Text(translate(onboardingEntity.description) ?? '',
+            style: Styles.fontStyle16(context), textAlign: TextAlign.center),
       ],
     );
   }

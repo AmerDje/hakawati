@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:hakawati/core/utils/constants.dart';
 
 abstract class Styles {
+  static TextStyle getTextStyle(BuildContext context, double fontSize) {
+    final locale = Localizations.localeOf(context);
+    final fontFamily = locale.languageCode == 'ar' ? [kMarhey, kLalezar] : [kQuicksand, kWinterDrink];
+    return TextStyle(fontSize: fontSize, fontFamily: fontSize > 24 ? fontFamily.last : fontFamily.first);
+  }
+
   // Headings
-  static const TextStyle fontStyle48 = TextStyle(fontSize: 48.0, fontFamily: kWinterDrink);
+  static TextStyle fontStyle48(BuildContext context) => getTextStyle(context, 48.0);
 
-  static const TextStyle fontStyle40 = TextStyle(fontSize: 40.0, fontFamily: kWinterDrink);
+  static TextStyle fontStyle40(BuildContext context) => getTextStyle(context, 40.0);
 
-  static const TextStyle fontStyle32 = TextStyle(fontSize: 32.0, fontFamily: kWinterDrink);
+  static TextStyle fontStyle32(BuildContext context) => getTextStyle(context, 32.0);
 
-  static const TextStyle fontStyle24 = TextStyle(fontSize: 24.0, fontFamily: kWinterDrink);
+  static TextStyle fontStyle24(BuildContext context) => getTextStyle(context, 24.0);
 
   // Body
-  static const TextStyle fontStyle18 = TextStyle(fontSize: 18.0);
+  static TextStyle fontStyle18(BuildContext context) => getTextStyle(context, 18.0);
 
-  static const TextStyle fontStyle16 = TextStyle(fontSize: 16.0);
+  static TextStyle fontStyle16(BuildContext context) => getTextStyle(context, 16.0);
 
-  static const TextStyle fontStyle14 = TextStyle(fontSize: 14.0);
+  static TextStyle fontStyle14(BuildContext context) => getTextStyle(context, 14.0);
 
-  static const TextStyle fontStyle12 = TextStyle(fontSize: 12.0);
+  static TextStyle fontStyle12(BuildContext context) => getTextStyle(context, 12.0);
 }
