@@ -23,12 +23,11 @@ class OnboardingItem extends StatelessWidget {
         const SizedBox(
           height: 5.0,
         ),
-        Text(translate(onboardingEntity.title) ?? '', style: Styles.fontStyle32(context)),
+        Text(translate(onboardingEntity.title), style: Styles.fontStyle32(context)),
         const SizedBox(
           height: 15.0,
         ),
-        Text(translate(onboardingEntity.description) ?? '',
-            style: Styles.fontStyle16(context), textAlign: TextAlign.center),
+        Text(translate(onboardingEntity.description), style: Styles.fontStyle16(context), textAlign: TextAlign.center),
       ],
     );
   }

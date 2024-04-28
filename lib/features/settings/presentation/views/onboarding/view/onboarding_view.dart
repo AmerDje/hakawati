@@ -87,14 +87,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       context.read<SettingsCubit>().closeOnBoarding();
                     },
                     child: Text(
-                      translate("get_started") ?? "Get Started",
+                      translate("get_started"),
                       style: Styles.fontStyle16(context).copyWith(color: Theme.of(context).secondaryHeaderColor),
                     )),
                 CustomTextButton(
                   onPressed: () {
                     context.read<SettingsCubit>().closeOnBoarding();
                   },
-                  btnText: translate("already_have_account") ?? "Already have an account?",
+                  btnText: translate("already_have_account"),
                 )
               ],
             ),

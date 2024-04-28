@@ -23,5 +23,17 @@
     "apply": "Apply",
     "get_started": "Get Started",
     "already_have_account": "Already have an account",
-    "home": {}
+
+
+    "timeout_occurred": "Request timed out. Please check your connection and try again.",
+    "bad_request": "Invalid request. Please try again.",
+    "unauthorized": "Unauthorized access. Please log in or check your credentials.",
+    "not_found": "Resource not found. Please verify the URL and try again.",
+    "conflict": "Resource conflict. Please try again later.",
+    "internal_server_error": "Internal server error. Please try again later.",
+    "unknown_error": "An unknown error occurred. Please try again later.",
+    "connection_error": "Connection error. Please check your internet connection and try again.",
+    "check_internet_connection": "Please check your internet connection",
+    "something_wrong": "Something went wrong, please try again"
+
 }

@@ -1,11 +1,14 @@
 import 'package:hakawati/features/settings/data/entities/onboarding_entity.dart';
 
 const kTransitionDuration = Duration(milliseconds: 250);
+
+const kBaseUrl = 'https://hakawati-api.herokuapp.com/api/v1';
 const kWinterDrink = 'Winter Drink';
 const kQuicksand = 'Quicksand';
 const kLalezar = 'Lalezar';
 const kMarhey = 'Marhey';
 const kDefaultLocale = 'en';
+const kSupportedLanguages = ['en', 'ar', 'fr'];
 
 const List<OnboardingEntity> kOnboardingData = <OnboardingEntity>[
   OnboardingEntity(

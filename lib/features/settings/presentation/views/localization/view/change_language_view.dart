@@ -44,7 +44,7 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
             height: 15,
           ),
           Text(
-            translate('settings:change_language') ?? 'Change Language',
+            translate('settings:change_language'),
             style: theme.textTheme.titleSmall,
           ),
           const SizedBox(
@@ -99,7 +99,7 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
                 }
                 context.read<SettingsCubit>().closeTranslation();
               },
-              child: Text(translate('settings:apply') ?? 'Apply'),
+              child: Text(translate('settings:apply')),
             ),
           ),
         ],

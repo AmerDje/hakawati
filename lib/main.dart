@@ -1,6 +1,7 @@
 //import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hakawati/core/service/service_locator.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_state.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
 import 'package:hakawati/features/settings/presentation/views/onboarding/onboarding.dart';
@@ -20,6 +21,7 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
+  ServicesLocator.init();
 
   runApp(
     MultiBlocProvider(
