@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/core/service/service_locator.dart';
+import 'package:hakawati/features/auth/auth.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_state.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
 import 'package:hakawati/features/settings/presentation/views/onboarding/onboarding.dart';
@@ -11,7 +12,6 @@ import 'config/locale/locale.dart';
 import 'core/utils/cache/prefs.dart';
 import 'core/utils/strings.dart';
 
-import 'features/home/presentation/home.dart';
 import 'config/theme/theme.dart';
 import 'features/settings/presentation/views/localization/localization.dart';
 
@@ -66,7 +66,7 @@ class MainApp extends StatelessWidget {
     } else if (state.enableOnBoarding) {
       return const OnboardingScreen();
     } else {
-      return const HomeView();
+      return const LoginView();
     }
   }
 }

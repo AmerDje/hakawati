@@ -7,7 +7,7 @@ class SettingsCubit extends HydratedCubit<SettingState> {
   final Brightness platformBrightness;
   SettingsCubit({required this.platformBrightness})
       : super(const SettingState(
-          locate: kDefaultLocale,
+          locate: Constants.kDefaultLocale,
           themeMode: ThemeMode.system,
           enableOnBoarding: false,
           enableTranslation: true,

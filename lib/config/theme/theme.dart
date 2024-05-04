@@ -7,7 +7,12 @@ abstract class AppTheme {
 // Dark Theme
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    fontFamily: kQuicksand,
+    colorScheme: const ColorScheme.dark(
+      primary: AppColors.primaryColorDark,
+      secondary: AppColors.secondaryColorDark,
+      background: AppColors.primaryColorDark,
+    ),
+    fontFamily: Constants.kQuicksand,
     primaryColor: AppColors.primaryColorDark,
     secondaryHeaderColor: AppColors.secondaryColorDark,
     textTheme: const TextTheme(
@@ -15,7 +20,7 @@ abstract class AppTheme {
       fontSize: 15.0,
       color: Colors.white,
     )),
-    scaffoldBackgroundColor: const Color(0XFF333739),
+    scaffoldBackgroundColor: AppColors.primaryColorDark,
     appBarTheme: const AppBarTheme(
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: Color(0XFF333739),
@@ -44,7 +49,12 @@ abstract class AppTheme {
 // Light Theme
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    fontFamily: kQuicksand,
+    colorScheme: const ColorScheme.light(
+      primary: AppColors.primaryColorLight,
+      secondary: AppColors.secondaryColorLight,
+      background: AppColors.primaryColorLight,
+    ),
+    fontFamily: Constants.kQuicksand,
     textTheme: const TextTheme(
         bodyMedium: TextStyle(
       fontSize: 15.0,
@@ -52,7 +62,7 @@ abstract class AppTheme {
     )),
     primaryColor: AppColors.primaryColorLight,
     secondaryHeaderColor: AppColors.secondaryColorLight,
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: AppColors.primaryColorLight,
     appBarTheme: const AppBarTheme(
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: Colors.white,

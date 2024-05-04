@@ -13,7 +13,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const AppLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => kSupportedLanguages.contains(locale.languageCode);
+  bool isSupported(Locale locale) => Constants.kSupportedLanguages.contains(locale.languageCode);
 
   @override
   Future<AppLocalizations> load(Locale locale) async {

@@ -16,7 +16,7 @@ class SettingState extends Equatable {
   });
 
   static const SettingState empty = SettingState(
-    locate: kDefaultLocale,
+    locate: Constants.kDefaultLocale,
     themeMode: ThemeMode.system,
     enableOnBoarding: false,
     enableTranslation: false,
