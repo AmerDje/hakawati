@@ -5,13 +5,13 @@ import 'package:hakawati/core/utils/colors.dart';
 import 'package:hakawati/core/utils/constants.dart';
 import 'package:hakawati/core/utils/extensions/media_query.dart';
 import 'package:hakawati/core/utils/styles.dart';
-import 'package:hakawati/core/widgets/customs.dart';
+import 'package:hakawati/core/widgets/widgets.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
 import 'package:hakawati/features/settings/presentation/views/onboarding/onboarding.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
-
+  static const routeName = '/onboarding_view';
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
@@ -40,64 +40,56 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final translate = AppLocalizations.of(context)!.translate;
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [HexColor('#12031F'), HexColor("#23103A")],
-        )),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: context.height * .85,
-                  child: Stack(
-                    children: [
-                      PageView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        controller: _pageController,
-                        itemBuilder: (context, index) => OnboardingItem(onboardingEntity: kOnboardingData[index]),
-                        itemCount: kOnboardingData.length,
+    return GradientScaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: context.height * .85,
+                child: Stack(
+                  children: [
+                    PageView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      controller: _pageController,
+                      itemBuilder: (context, index) =>
+                          OnboardingItem(onboardingEntity: Constants.kOnboardingData[index]),
+                      itemCount: Constants.kOnboardingData.length,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Positioned(
+                      top: context.height * .6,
+                      left: 0,
+                      right: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: _buildPageIndicator(),
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Positioned(
-                        top: context.height * .6,
-                        left: 0,
-                        right: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: _buildPageIndicator(),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                CustomElevatedButton(
-                    fixedSize: Size(context.width * .9, 50),
-                    onPressed: () {
-                      context.read<SettingsCubit>().closeOnBoarding();
-                    },
-                    child: Text(
-                      translate("get_started"),
-                      style: Styles.fontStyle16(context).copyWith(color: Theme.of(context).secondaryHeaderColor),
-                    )),
-                CustomTextButton(
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomElevatedButton(
                   onPressed: () {
                     context.read<SettingsCubit>().closeOnBoarding();
                   },
-                  btnText: translate("already_have_account"),
-                )
-              ],
-            ),
+                  child: Text(
+                    translate("get_started"),
+                    style: Styles.fontStyle16(context).copyWith(color: Theme.of(context).secondaryHeaderColor),
+                  )),
+              CustomTextButton(
+                onPressed: () {
+                  context.read<SettingsCubit>().closeOnBoarding();
+                },
+                btnText: translate("already_have_account"),
+              )
+            ],
           ),
         ),
       ),
@@ -106,7 +98,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   List<Widget> _buildPageIndicator() {
     List<Widget> indicators = [];
-    for (int i = 0; i < kOnboardingData.length; i++) {
+    for (int i = 0; i < Constants.kOnboardingData.length; i++) {
       indicators.add(
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),

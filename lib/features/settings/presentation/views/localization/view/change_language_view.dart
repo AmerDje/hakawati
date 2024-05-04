@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hakawati/config/locale/locale.dart';
 import 'package:hakawati/core/utils/constants.dart';
-import 'package:hakawati/core/widgets/customs.dart';
+import 'package:hakawati/core/widgets/widgets.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
 
 class ChangeLanguageView extends StatefulWidget {
   const ChangeLanguageView({super.key});
+
+  static const routeName = '/change_language_view';
 
   @override
   State<ChangeLanguageView> createState() => _ChangeLanguageViewState();
@@ -15,7 +17,7 @@ class ChangeLanguageView extends StatefulWidget {
 
 class _ChangeLanguageViewState extends State<ChangeLanguageView> {
   final List options = AppLocalizationsSetup.supportedLocales.map((e) => e.languageCode).toList();
-  String? _value = kDefaultLocale;
+  String? _value = Constants.kDefaultLocale;
   final List _option = [];
   @override
   Widget build(BuildContext context) {

@@ -43,7 +43,7 @@ class DioConsumer implements ApiConsumer {
     'content-type': 'application/json',
   };
   late var clientOptions = BaseOptions(
-    baseUrl: kBaseUrl,
+    baseUrl: Constants.kBaseUrl,
     headers: headers,
     responseType: ResponseType.plain,
     followRedirects: false,
