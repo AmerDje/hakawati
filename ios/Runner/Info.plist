@@ -45,5 +45,21 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+		<key>CFBundleURLSchemes</key>
+		<array>
+			<string>fb424546323542921</string>
+		</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>424546323542921</string>
+	<key>FacebookClientToken</key>
+	<string>34e8629e71881a35137eeaa2226f2e68</string>
+	<key>FacebookDisplayName</key>
+	<string>Hakawati</string>
 </dict>
 </plist>
