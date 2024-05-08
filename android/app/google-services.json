@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "931553885480",
+    "project_id": "hakawati-ai",
+    "storage_bucket": "hakawati-ai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931553885480:android:7892ee063150ce3dbee41d",
+        "android_client_info": {
+          "package_name": "com.ai.hakawati"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931553885480-30puhb8bmat6nbabgcuv167cufhb85pg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMLeRHVP5-QXRbz19c-yua92q-qvYvWx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "931553885480-30puhb8bmat6nbabgcuv167cufhb85pg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "931553885480-v0dfepsacpundkh8rdl9naiaa9ojdom3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hakawati"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
