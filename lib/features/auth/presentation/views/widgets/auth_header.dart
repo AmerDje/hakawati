@@ -8,30 +8,33 @@ class AuthHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GradientScaffold(
-        body: Align(
-      alignment: Alignment.bottomCenter,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
+        body: Stack(
+      alignment: AlignmentDirectional.center,
+      children: [
+        PositionedDirectional(
+          top: 0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            child: Text(
               Strings.appName,
               style: Styles.fontStyle54(context).copyWith(
                 color: Theme.of(context).secondaryHeaderColor,
               ),
             ),
-            SizedBox(
-              height: context.height * .15,
-            ),
-            GlassFilter(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: GlassFilter(
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: SingleChildScrollView(
                 child: child,
               ),
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     ));
   }
 }

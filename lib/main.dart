@@ -5,6 +5,8 @@ import 'package:hakawati/core/bloc_observer.dart';
 import 'package:hakawati/core/service/service_locator.dart';
 import 'package:hakawati/features/auth/auth.dart';
 import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
+import 'package:hakawati/features/auth/presentation/views/register/manager/register_cubit.dart';
+import 'package:hakawati/features/auth/presentation/views/register/view/widgets/register_view_form.dart';
 import 'package:hakawati/features/home/presentation/home.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_state.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
@@ -89,8 +91,15 @@ class MainApp extends StatelessWidget {
       return const OnboardingScreen();
     } else if (authState.status == AuthStatus.unauthenticated || authState.status == AuthStatus.unknown) {
       return const LoginView();
-    } else {
+    } else if (authState.status == AuthStatus.authenticated && authState.user.emailVerified == true) {
       return const HomeView();
+    } else {
+      return BlocProvider(
+        create: (context) => sl.get<RegisterCubit>()..sendEmailVerification(),
+        child: EmailVerificationScreen(
+          email: authState.user.email ?? '',
+        ),
+      );
     }
   }
 }
