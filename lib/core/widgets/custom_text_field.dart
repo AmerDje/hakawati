@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hakawati/core/utils/utils.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField(
-      {super.key,
-      this.labelText,
-      this.icon,
-      this.controller,
-      this.readOnly = false,
-      this.textType,
-      this.obscure = false,
-      // this.isLast = false,
-      this.onSaved,
-      this.onChanged,
-      this.focusNode,
-      this.onTap,
-      this.initialValue,
-      this.hintText,
-      this.validator});
+  const CustomTextField({
+    super.key,
+    this.labelText,
+    this.icon,
+    this.controller,
+    this.readOnly = false,
+    this.textType,
+    this.obscure = false,
+    // this.isLast = false,
+    this.onSaved,
+    this.inputFormatters,
+    this.onChanged,
+    this.focusNode,
+    this.onTap,
+    this.initialValue,
+    this.hintText,
+    this.validator,
+  });
   final TextEditingController? controller;
   final Widget? icon;
   final String? labelText;
   final TextInputType? textType;
   final String? hintText;
   final bool obscure;
+  final List<TextInputFormatter>? inputFormatters;
   //final bool isLast;
   final void Function(String?)? onSaved;
   final void Function(String)? onChanged;
@@ -50,6 +54,7 @@ class CustomTextField extends StatelessWidget {
       cursorWidth: 1,
       keyboardType: textType,
       obscureText: obscure,
+      inputFormatters: inputFormatters,
       focusNode: focusNode,
       cursorColor: Colors.white,
       textInputAction: TextInputAction.next, //  isLast ? TextInputAction.next : TextInputAction.done,
