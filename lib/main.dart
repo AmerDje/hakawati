@@ -1,8 +1,11 @@
-//import 'package:flutter/foundation.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hakawati/core/bloc_observer.dart';
 import 'package:hakawati/core/service/service_locator.dart';
 import 'package:hakawati/features/auth/auth.dart';
+import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
+import 'package:hakawati/features/home/presentation/home.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_state.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
 import 'package:hakawati/features/settings/presentation/views/onboarding/onboarding.dart';
@@ -21,8 +24,21 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
-  ServicesLocator.init();
 
+  ServicesLocator.init();
+  await Firebase.initializeApp();
+
+  Bloc.observer = AppBlocObserver();
+  // FirebaseAuth.instance.authStateChanges().listen((User? user) {
+  //   if (user == null) {
+  //     //apply logout logic
+  //     print('User is currently signed out!');
+  //   } else {
+  //     user.getIdToken();
+  //     //update token logic
+  //     print('User is signed in!');
+  //   }
+  // });
   runApp(
     MultiBlocProvider(
       providers: [
@@ -30,6 +46,7 @@ void main() async {
           create: (_) =>
               SettingsCubit(platformBrightness: WidgetsBinding.instance.platformDispatcher.platformBrightness),
         ),
+        BlocProvider(create: (_) => AuthCubit()),
       ],
       child: const MainApp(),
     ),
@@ -54,19 +71,26 @@ class MainApp extends StatelessWidget {
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: settings.themeMode,
-          home: _getWidget(settings),
+          home: BlocBuilder<AuthCubit, AuthState>(
+            buildWhen: (previous, current) => previous.status != current.status,
+            builder: (_, authState) {
+              return _getWidget(settings, authState);
+            },
+          ),
         );
       },
     );
   }
 
-  Widget _getWidget(SettingState state) {
+  Widget _getWidget(SettingState state, AuthState authState) {
     if (state.enableTranslation) {
       return const ChangeLanguageView();
     } else if (state.enableOnBoarding) {
       return const OnboardingScreen();
-    } else {
+    } else if (authState.status == AuthStatus.unauthenticated || authState.status == AuthStatus.unknown) {
       return const LoginView();
+    } else {
+      return const HomeView();
     }
   }
 }
