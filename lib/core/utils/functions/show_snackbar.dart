@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-void showSnackBar(BuildContext context, String text) {
+void showSnackBar(BuildContext context, String text, {bool isError = false}) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       duration: const Duration(seconds: 5),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       behavior: SnackBarBehavior.floating,
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: isError ? Colors.red : Colors.greenAccent,
       elevation: 10,
       showCloseIcon: true,
       closeIconColor: Colors.grey,

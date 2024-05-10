@@ -33,5 +33,6 @@ class ServicesLocator {
         facebookAuth: sl.get<FacebookAuth>()));
 
     // Cubit sl
+    sl.registerFactory<RegisterCubit>(() => RegisterCubit(sl.get<AuthRepositoryImpl>()));
   }
 }

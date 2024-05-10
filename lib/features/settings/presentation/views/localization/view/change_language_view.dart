@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hakawati/config/locale/locale.dart';
 import 'package:hakawati/core/utils/constants.dart';
+import 'package:hakawati/core/utils/styles.dart';
 import 'package:hakawati/core/widgets/widgets.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
 
@@ -101,7 +102,10 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
                 }
                 context.read<SettingsCubit>().closeTranslation();
               },
-              child: Text(translate('settings:apply')),
+              child: Text(
+                translate('settings:apply'),
+                style: Styles.fontStyle16(context).copyWith(color: Theme.of(context).secondaryHeaderColor),
+              ),
             ),
           ),
         ],
