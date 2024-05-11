@@ -6,6 +6,7 @@ import 'package:hakawati/features/auth/data/models/user.dart';
 abstract class AuthRepository {
   Either<Failure, UserModel> currentUser();
   Future<Either<Failure, UserModel>> login(String email, String password);
+  Future<Either<Failure, UserModel>> fetchPersonalData(String? uid);
   Future<Either<Failure, User>> register(String email, String password, String locate);
   Future<Either<Failure, UserModel>> createUser(UserModel user);
   Future<Either<Failure, UserModel>> logout();
