@@ -9,6 +9,8 @@ import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:hakawati/features/auth/presentation/views/login/manager/login_cubit.dart';
 import 'package:hakawati/features/auth/presentation/views/register/view/register_view.dart';
 import 'package:hakawati/features/auth/presentation/views/widgets/auth_bottom.dart';
+import 'package:hakawati/features/auth/presentation/views/widgets/auth_checkbox.dart';
+import 'package:hakawati/features/auth/presentation/views/widgets/auth_divider.dart';
 import 'package:hakawati/features/home/presentation/home.dart';
 
 class LoginViewForm extends StatefulWidget {
@@ -19,7 +21,7 @@ class LoginViewForm extends StatefulWidget {
 }
 
 class _LoginViewFormState extends State<LoginViewForm> {
-  // bool isRemembered = true;
+  bool isRemembered = true;
   AutovalidateMode? _autovalidateMode = AutovalidateMode.disabled;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? email, password;
@@ -73,42 +75,48 @@ class _LoginViewFormState extends State<LoginViewForm> {
             const SizedBox(
               height: 15,
             ),
-            // AuthCheckbox(
-            //   checkValue: isRemembered,
-            //   onChanged: (value) {
-            //     isRemembered = value!;
-            //     isRemembered != isRemembered;
-            //     setState(() {});
-            //   },
-            //   text: "Remember me",
-            //   btnText: "Forgot password?",
-            //   onPressed: () {},
-            // ),
-            // const SizedBox(
-            //   height: 15,
-            // ),
-            // const AuthDivider(),
-            // const SizedBox(
-            //   height: 15,
-            // ),
+            StatefulBuilder(builder: (context, customSetState) {
+              return AuthCheckbox(
+                checkValue: isRemembered,
+                onChanged: (value) {
+                  isRemembered = value!;
+                  isRemembered != isRemembered;
+                  customSetState(() {});
+                },
+                text: "Remember me",
+                btnText: "Forgot password?",
+                onPressed: () {},
+              );
+            }),
+            const SizedBox(
+              height: 15,
+            ),
+            const AuthDivider(),
+            const SizedBox(
+              height: 15,
+            ),
             AuthBottom(
                 text: 'Don\'t have an account',
                 btnText: 'Register',
                 onPressed: () {
                   context.go(const RegisterView());
                 }),
-            const SizedBox(
-              height: 15,
-            ),
+            SizedBox(height: context.height * .15),
             BlocConsumer<LoginCubit, LoginState>(
               listener: (context, state) {
                 if (state is LoginSuccess) {
-                  //   if (isRemembered) {
-                  context.read<AuthCubit>().updateAuthStatus({
-                    "user": state.user.toJson(),
-                    "token": state.user.uid.toString(),
-                  });
-                  //       }
+                  if (isRemembered) {
+                    context.read<AuthCubit>().updateAuthStatus({
+                      "user": state.user.toJson(),
+                      "token": state.user.uid.toString(),
+                    });
+                  } else {
+                    context.read<AuthCubit>().updateAuthStatus({
+                      "user": state.user.toJson(),
+                      "token": state.user.uid.toString(),
+                      "isRemembered": false,
+                    });
+                  }
                   context.go(const HomeView());
                 } else if (state is LoginFailure) {
                   showSnackBar(context, state.errMessage);
@@ -119,7 +127,7 @@ class _LoginViewFormState extends State<LoginViewForm> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      context.read<LoginCubit>().login(email!, password!);
+                      context.read<LoginCubit>().login(email!.trim(), password!);
                     } else {
                       _autovalidateMode = AutovalidateMode.always;
                       setState(() {});

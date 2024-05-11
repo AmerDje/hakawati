@@ -24,16 +24,14 @@ class AuthCheckbox extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        StatefulBuilder(builder: (context, setState) {
-          return SizedBox(
-            height: 24.0,
-            width: 24.0,
-            child: Checkbox.adaptive(
-                shape: const RoundedRectangleBorder(borderRadius: Constants.kCircularRadius6),
-                value: checkValue,
-                onChanged: onChanged),
-          );
-        }),
+        SizedBox(
+          height: 24.0,
+          width: 24.0,
+          child: Checkbox.adaptive(
+              shape: const RoundedRectangleBorder(borderRadius: Constants.kCircularRadius6),
+              value: checkValue,
+              onChanged: onChanged),
+        ),
         if (widget != null) ...[
           const SizedBox(
             width: 15,

@@ -6,7 +6,7 @@ import 'package:hakawati/core/service/service_locator.dart';
 import 'package:hakawati/features/auth/auth.dart';
 import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:hakawati/features/auth/presentation/views/register/manager/register_cubit.dart';
-import 'package:hakawati/features/auth/presentation/views/register/view/widgets/register_view_form.dart';
+import 'package:hakawati/features/auth/presentation/views/register/view/widgets/email_verification_screen.dart';
 import 'package:hakawati/features/home/presentation/home.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_state.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
