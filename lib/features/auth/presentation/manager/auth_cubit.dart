@@ -19,6 +19,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
 
   void logout() async {
     emit(const AuthState.unauthenticated());
+    clear();
   }
 
   @override
@@ -32,5 +33,13 @@ class AuthCubit extends HydratedCubit<AuthState> {
   @override
   Map<String, dynamic> toJson(AuthState state) {
     return state.toJson();
+  }
+
+  @override
+  Future<void> close() async {
+    if (state.isRemembered == false) {
+      logout();
+    }
+    super.close();
   }
 }
