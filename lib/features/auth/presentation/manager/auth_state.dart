@@ -6,16 +6,19 @@ class AuthState extends Equatable {
   final AuthStatus status;
   final UserModel user;
   final String token;
+  final bool isRemembered;
   const AuthState({
     required this.status,
     required this.token,
     required this.user,
+    this.isRemembered = true,
   });
 
   const AuthState._({
     this.status = AuthStatus.unknown,
     this.user = UserModel.empty,
     this.token = '',
+    this.isRemembered = true,
   });
 
   const AuthState.unknown() : this._();
@@ -25,18 +28,21 @@ class AuthState extends Equatable {
           status: AuthStatus.authenticated,
           user: UserModel.fromJson(response['user']),
           token: response['token'],
+          isRemembered: response['isRemembered'] ?? true,
         );
 
-  const AuthState.unauthenticated() : this._(status: AuthStatus.unauthenticated, token: '');
+  const AuthState.unauthenticated() : this._(status: AuthStatus.unauthenticated, token: '', isRemembered: false);
 
   AuthState copyWith({
     AuthStatus? status,
     UserModel? user,
+    bool? isRemembered,
   }) {
     return AuthState(
       status: status ?? this.status,
       user: user ?? this.user,
       token: token,
+      isRemembered: isRemembered ?? this.isRemembered,
     );
   }
 
@@ -45,6 +51,7 @@ class AuthState extends Equatable {
       status: AuthStatus.authenticated,
       user: UserModel.fromJson(json['user']),
       token: json['token'],
+      isRemembered: json['isRemembered'] ?? true,
     );
   }
 
@@ -52,9 +59,10 @@ class AuthState extends Equatable {
     return {
       'user': user.toJson(),
       'token': token,
+      'isRemembered': isRemembered,
     };
   }
 
   @override
-  List<Object> get props => [status, user, token];
+  List<Object> get props => [status, user, token, isRemembered];
 }
