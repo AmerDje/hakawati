@@ -1,13 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/config/locale/locale.dart';
-import 'package:hakawati/core/utils/extensions/navigator.dart';
 import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/core/utils/validators.dart';
 import 'package:hakawati/core/widgets/widgets.dart';
+import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
+import 'package:hakawati/features/auth/presentation/views/login/manager/login_cubit.dart';
 import 'package:hakawati/features/auth/presentation/views/register/view/register_view.dart';
 import 'package:hakawati/features/auth/presentation/views/widgets/auth_bottom.dart';
-import 'package:hakawati/features/auth/presentation/views/widgets/auth_checkbox.dart';
-import 'package:hakawati/features/auth/presentation/views/widgets/auth_divider.dart';
+import 'package:hakawati/features/home/presentation/home.dart';
 
 class LoginViewForm extends StatefulWidget {
   const LoginViewForm({super.key});
@@ -17,7 +19,7 @@ class LoginViewForm extends StatefulWidget {
 }
 
 class _LoginViewFormState extends State<LoginViewForm> {
-  bool isRemembered = false;
+  // bool isRemembered = true;
   AutovalidateMode? _autovalidateMode = AutovalidateMode.disabled;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? email, password;
@@ -31,24 +33,23 @@ class _LoginViewFormState extends State<LoginViewForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25.0),
-              child: Center(
-                child: Text(
-                  'Login',
-                  style: Styles.fontStyle40(context),
-                ),
+            Center(
+              child: Text(
+                'Login',
+                style: Styles.fontStyle40(context),
               ),
             ),
             Text("Email", style: Styles.fontStyle16(context)),
             CustomTextField(
               hintText: 'Enter your email',
               onSaved: (value) {
-                // email = value;
+                email = value;
               },
               validator: (value) {
                 if (Validators.isNullOrBlank(value)) {
                   return "Field can't empty";
+                } else if (!Validators.isValidEmail(value)) {
+                  return "Invalid email format";
                 }
                 return null;
               },
@@ -60,7 +61,7 @@ class _LoginViewFormState extends State<LoginViewForm> {
             CustomPasswordField(
               hintText: 'Enter your password',
               onSaved: (value) {
-                // password = value;
+                password = value;
               },
               validator: (value) {
                 if (Validators.isNullOrBlank(value)) {
@@ -72,24 +73,24 @@ class _LoginViewFormState extends State<LoginViewForm> {
             const SizedBox(
               height: 15,
             ),
-            AuthCheckbox(
-              checkValue: isRemembered,
-              onChanged: (value) {
-                isRemembered = value!;
-                isRemembered != isRemembered;
-                setState(() {});
-              },
-              text: "Remember me",
-              btnText: "Forgot password?",
-              onPressed: () {},
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            const AuthDivider(),
-            const SizedBox(
-              height: 15,
-            ),
+            // AuthCheckbox(
+            //   checkValue: isRemembered,
+            //   onChanged: (value) {
+            //     isRemembered = value!;
+            //     isRemembered != isRemembered;
+            //     setState(() {});
+            //   },
+            //   text: "Remember me",
+            //   btnText: "Forgot password?",
+            //   onPressed: () {},
+            // ),
+            // const SizedBox(
+            //   height: 15,
+            // ),
+            // const AuthDivider(),
+            // const SizedBox(
+            //   height: 15,
+            // ),
             AuthBottom(
                 text: 'Don\'t have an account',
                 btnText: 'Register',
@@ -99,19 +100,39 @@ class _LoginViewFormState extends State<LoginViewForm> {
             const SizedBox(
               height: 15,
             ),
-            CustomElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                } else {
-                  _autovalidateMode = AutovalidateMode.always;
-                  setState(() {});
+            BlocConsumer<LoginCubit, LoginState>(
+              listener: (context, state) {
+                if (state is LoginSuccess) {
+                  //   if (isRemembered) {
+                  context.read<AuthCubit>().updateAuthStatus({
+                    "user": state.user.toJson(),
+                    "token": state.user.uid.toString(),
+                  });
+                  //       }
+                  context.go(const HomeView());
+                } else if (state is LoginFailure) {
+                  showSnackBar(context, state.errMessage);
                 }
               },
-              child: Text(
-                translate("login"),
-                style: Styles.fontStyle16(context).copyWith(color: Theme.of(context).secondaryHeaderColor),
-              ),
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      context.read<LoginCubit>().login(email!, password!);
+                    } else {
+                      _autovalidateMode = AutovalidateMode.always;
+                      setState(() {});
+                    }
+                  },
+                  child: state is LoginLoading
+                      ? const CupertinoActivityIndicator()
+                      : Text(
+                          translate("login"),
+                          style: Styles.fontStyle16(context).copyWith(color: Theme.of(context).secondaryHeaderColor),
+                        ),
+                );
+              },
             ),
           ],
         ));

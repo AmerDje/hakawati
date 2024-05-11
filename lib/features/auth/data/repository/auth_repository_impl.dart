@@ -79,6 +79,19 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, UserModel>> fetchPersonalData(String? uid) async {
+    try {
+      final snapShot = await _firebaseFirestore.collection('users').doc(uid).get();
+      final user = UserModel.fromJson(snapShot.data()!);
+      return Right(user);
+    } on FirebaseAuthException catch (e) {
+      return Left(Failure(message: e.message ?? 'An error occurred'));
+    } catch (e) {
+      return Left(Failure(message: "An error occurred"));
+    }
+  }
+
+  @override
   Future<Either<Failure, User>> register(String email, String password, String locate) async {
     try {
       final UserCredential userCredential =
