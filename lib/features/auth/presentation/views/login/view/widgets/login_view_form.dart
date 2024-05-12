@@ -11,7 +11,7 @@ import 'package:hakawati/features/auth/presentation/views/register/view/register
 import 'package:hakawati/features/auth/presentation/views/widgets/auth_bottom.dart';
 import 'package:hakawati/features/auth/presentation/views/widgets/auth_checkbox.dart';
 import 'package:hakawati/features/auth/presentation/views/widgets/auth_divider.dart';
-import 'package:hakawati/features/home/presentation/home.dart';
+import 'package:hakawati/features/bottom_navbar/presentation/view/bottom_navbar_view.dart';
 
 class LoginViewForm extends StatefulWidget {
   const LoginViewForm({super.key});
@@ -117,7 +117,7 @@ class _LoginViewFormState extends State<LoginViewForm> {
                       "isRemembered": false,
                     });
                   }
-                  context.go(const HomeView());
+                  context.go(const BottomNavbarView());
                 } else if (state is LoginFailure) {
                   showSnackBar(context, state.errMessage);
                 }

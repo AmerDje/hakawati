@@ -7,7 +7,7 @@ import 'package:hakawati/features/auth/data/models/user.dart';
 import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:hakawati/features/auth/presentation/views/login/view/login_view.dart';
 import 'package:hakawati/features/auth/presentation/views/register/manager/register_cubit.dart';
-import 'package:hakawati/features/home/presentation/view/home_view.dart';
+import 'package:hakawati/features/bottom_navbar/presentation/view/bottom_navbar_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EmailVerificationScreen extends StatelessWidget {
@@ -30,7 +30,7 @@ class EmailVerificationScreen extends StatelessWidget {
                   "user": newUser.toJson(),
                   "token": newUser.uid.toString(),
                 });
-                context.go(const HomeView());
+                context.go(const BottomNavbarView());
               }
               if (state is DeleteUserSuccess) {
                 context.read<AuthCubit>().updateAuthStatus({
