@@ -31,4 +31,6 @@ abstract class Styles {
   static TextStyle fontStyle14(BuildContext context) => getTextStyle(context, 14.0);
 
   static TextStyle fontStyle12(BuildContext context) => getTextStyle(context, 12.0);
+
+  static TextStyle fontStyle10(BuildContext context) => getTextStyle(context, 10.0);
 }

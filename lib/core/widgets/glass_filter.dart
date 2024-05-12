@@ -3,8 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class GlassFilter extends StatelessWidget {
-  const GlassFilter({super.key, required this.child});
+  const GlassFilter(
+      {super.key,
+      required this.child,
+      this.borderRadius = const BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))});
   final Widget child;
+  final BorderRadiusGeometry borderRadius;
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -14,7 +18,7 @@ class GlassFilter extends StatelessWidget {
         ],
       ),
       child: ClipRRect(
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+        borderRadius: borderRadius,
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
           child: DecoratedBox(
