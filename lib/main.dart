@@ -7,7 +7,7 @@ import 'package:hakawati/features/auth/auth.dart';
 import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:hakawati/features/auth/presentation/views/register/manager/register_cubit.dart';
 import 'package:hakawati/features/auth/presentation/views/register/view/widgets/email_verification_screen.dart';
-import 'package:hakawati/features/home/presentation/home.dart';
+import 'package:hakawati/features/bottom_navbar/presentation/view/bottom_navbar_view.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_state.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
 import 'package:hakawati/features/settings/presentation/views/onboarding/onboarding.dart';
@@ -92,7 +92,7 @@ class MainApp extends StatelessWidget {
     } else if (authState.status == AuthStatus.unauthenticated || authState.status == AuthStatus.unknown) {
       return const LoginView();
     } else if (authState.status == AuthStatus.authenticated && authState.user.emailVerified == true) {
-      return const HomeView();
+      return const BottomNavbarView();
     } else {
       return BlocProvider(
         create: (context) => sl.get<RegisterCubit>()..sendEmailVerification(),
