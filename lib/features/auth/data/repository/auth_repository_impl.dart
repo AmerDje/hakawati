@@ -188,7 +188,7 @@ class AuthRepositoryImpl implements AuthRepository {
         final accessToken = loginResult.accessToken;
 
         // Use the credentials to sign in to Firebase
-        final credential = FacebookAuthProvider.credential(accessToken?.token ?? "");
+        final credential = FacebookAuthProvider.credential(accessToken?.tokenString ?? "");
         final UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
         final user = userCredential.user;
 

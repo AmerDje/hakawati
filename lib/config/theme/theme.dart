@@ -10,7 +10,7 @@ abstract class AppTheme {
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primaryColorDark,
       secondary: AppColors.secondaryColorDark,
-      background: AppColors.primaryColorDark,
+      surface: AppColors.primaryColorDark,
     ),
     fontFamily: Constants.kQuicksand,
     primaryColor: AppColors.primaryColorDark,
@@ -52,7 +52,7 @@ abstract class AppTheme {
     colorScheme: const ColorScheme.light(
       primary: AppColors.primaryColorLight,
       secondary: AppColors.secondaryColorLight,
-      background: AppColors.primaryColorLight,
+      surface: AppColors.primaryColorLight,
     ),
     fontFamily: Constants.kQuicksand,
     textTheme: const TextTheme(

@@ -10,7 +10,7 @@ import 'package:hakawati/features/settings/presentation/manager/settings_cubit.d
 import 'package:hakawati/features/settings/presentation/views/onboarding/onboarding.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
   static const routeName = '/onboarding_view';
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
