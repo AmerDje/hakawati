@@ -4,7 +4,7 @@ import 'package:hakawati/core/utils/colors.dart';
 class GradientScaffold extends StatelessWidget {
   final Widget body;
 
-  const GradientScaffold({Key? key, required this.body}) : super(key: key);
+  const GradientScaffold({super.key, required this.body});
 
   @override
   Widget build(BuildContext context) {
