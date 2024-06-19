@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/features/settings/data/entities/onboarding_entity.dart';
 
 abstract class Constants {
@@ -12,21 +13,27 @@ abstract class Constants {
   static const kDefaultLocale = 'en';
   static const kSupportedLanguages = ['en', 'ar', 'fr'];
 
+  static const Map<String, String> kLanguages = {
+    'en': 'English',
+    'ar': 'Arabic',
+    'fr': 'French',
+  };
+
   static const List<OnboardingEntity> kOnboardingData = <OnboardingEntity>[
     OnboardingEntity(
       title: 'title_1',
       description: 'description_1',
-      image: 'assets/images/onboarding1.png',
+      image: Assets.onboardingOne,
     ),
     OnboardingEntity(
       title: 'title_2',
       description: 'description_2',
-      image: 'assets/images/onboarding2.png',
+      image: Assets.onboardingTwo,
     ),
     OnboardingEntity(
       title: 'title_3',
       description: 'description_3',
-      image: 'assets/images/onboarding3.png',
+      image: Assets.onboardingThree,
     ),
   ];
 
