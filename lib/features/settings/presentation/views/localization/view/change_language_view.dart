@@ -18,7 +18,7 @@ class ChangeLanguageView extends StatefulWidget {
 
 class _ChangeLanguageViewState extends State<ChangeLanguageView> {
   final List options = AppLocalizationsSetup.supportedLocales.map((e) => e.languageCode).toList();
-  String? _value = Constants.kDefaultLocale;
+  String _value = Constants.kDefaultLocale;
   final List _option = [];
   @override
   Widget build(BuildContext context) {
@@ -30,6 +30,7 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
       padding: const EdgeInsets.all(25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Spacer(),
           Row(
@@ -63,7 +64,7 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
                   options.length,
                   (index) {
                     var option = options[index];
-                    bool isSelect = option == _value;
+                    bool isSelect = (option == locate);
                     return Column(
                       children: [
                         ListTile(
@@ -97,8 +98,8 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
             width: double.infinity,
             child: CustomElevatedButton(
               onPressed: () {
-                if (_value != null && _value != locate) {
-                  if (mounted) context.read<SettingsCubit>().changeLanguage(_value!);
+                if (_value != locate) {
+                  if (mounted) context.read<SettingsCubit>().changeLanguage(_value);
                 }
                 context.read<SettingsCubit>().closeTranslation();
               },
