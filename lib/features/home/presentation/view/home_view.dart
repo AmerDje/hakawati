@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hakawati/config/locale/locale.dart';
+import 'package:hakawati/core/widgets/gradient_scaffold.dart';
 import 'widgets/app_bar_icon.dart';
 import 'widgets/icon_chip.dart';
 import 'widgets/recommended_stories_list_view.dart';
@@ -16,7 +17,7 @@ class HomeView extends StatelessWidget {
     final translate = AppLocalizations.of(context)?.translate;
     return SafeArea(
       minimum: const EdgeInsets.only(top: 10),
-      child: Scaffold(
+      child: GradientScaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           leading: Padding(

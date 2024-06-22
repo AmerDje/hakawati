@@ -12,7 +12,7 @@ class ExploreView extends StatelessWidget {
   Widget build(BuildContext context) {
     final translate = AppLocalizations.of(context)!.translate;
     return SafeArea(
-      child: Scaffold(
+      child: GradientScaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
           child: Column(

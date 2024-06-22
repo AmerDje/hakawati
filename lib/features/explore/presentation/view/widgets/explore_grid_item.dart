@@ -10,25 +10,39 @@ class ExploreViewGridItem extends StatelessWidget {
       height: 200,
       width: context.width * .2 - 10,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Colors.deepPurple, Colors.purple],
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-        ),
+        //   gradient: const LinearGradient(
+        //     colors: [Colors.deepPurple, Colors.purple],
+        //     begin: Alignment.bottomLeft,
+        //     end: Alignment.topRight,
+        //   ),
+        color: AppColors.getRandomColor(),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset(
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Image.asset(
               Assets.testImageThree,
-              height: 130,
+              height: 140,
             ),
-            Text("Explore", style: Styles.fontStyle16(context).copyWith(color: Colors.white)),
-          ],
-        ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              gradient: const LinearGradient(
+                colors: [AppColors.gradientColor1, Colors.transparent],
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Explore", style: Styles.fontStyle16(context).copyWith(color: Colors.white)),
+          ),
+        ],
       ),
     );
   }

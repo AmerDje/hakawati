@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/core/widgets/custom_elevated_button.dart';
 import 'package:hakawati/core/widgets/custom_text_button.dart';
+import 'package:hakawati/core/widgets/widgets.dart';
 import 'package:hakawati/features/auth/data/models/user.dart';
 import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:hakawati/features/auth/presentation/views/login/view/login_view.dart';
@@ -16,7 +17,7 @@ class EmailVerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GradientScaffold(
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
