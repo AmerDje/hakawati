@@ -15,7 +15,9 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return Container(
+      height: fixedSize?.height,
+      width: fixedSize?.width,
       decoration: const BoxDecoration(
         borderRadius: Constants.kCircularRadius12,
         gradient: LinearGradient(
@@ -30,8 +32,6 @@ class CustomElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
           fixedSize: fixedSize ?? Size(context.width, 50),
           side: BorderSide(width: 1, color: Theme.of(context).secondaryHeaderColor),
           shape: const RoundedRectangleBorder(

@@ -44,7 +44,7 @@ class _BottomNavbarBodyState extends State<BottomNavbarBody> {
   Widget build(BuildContext context) {
     return BlocBuilder<BottomNavigationCubit, int>(
       builder: (context, state) {
-        return Scaffold(
+        return GradientScaffold(
           body: Stack(
             children: [
               SafeArea(bottom: false, child: widgets[state].page),

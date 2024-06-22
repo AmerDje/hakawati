@@ -1,5 +1,6 @@
 abstract class Assets {
   static const String logo = 'assets/images/logo.png';
+  static const String avatar = 'assets/images/avatar.png';
 
   static const String onboardingOne = 'assets/images/onboarding_1.png';
   static const String onboardingTwo = 'assets/images/onboarding_2.png';
