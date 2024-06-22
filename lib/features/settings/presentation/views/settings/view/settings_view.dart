@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hakawati/core/utils/utils.dart';
+import 'package:hakawati/core/widgets/gradient_scaffold.dart';
 import 'package:hakawati/features/settings/presentation/views/settings/view/widgets/settings_view_body.dart';
 import 'widgets/appbar_leading_button.dart';
 
@@ -8,7 +9,7 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GradientScaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,

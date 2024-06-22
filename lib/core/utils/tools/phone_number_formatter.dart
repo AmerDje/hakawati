@@ -8,7 +8,7 @@ class NumberTextInputFormatter extends TextInputFormatter {
     int usedSubstringIndex = 0;
     final StringBuffer newText = StringBuffer();
 
-    List<int> splitIndices = [2, 4, 6, 8, 10];
+    List<int> splitIndices = [4, 6, 8, 10];
 
     for (int i = 0; i < splitIndices.length; i++) {
       if (newTextLength >= splitIndices[i]) {

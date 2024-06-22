@@ -73,6 +73,17 @@ abstract class Constants {
     ),
   ];
 
+  static const kGradientScaffoldDecoration = BoxDecoration(
+    gradient: LinearGradient(
+      colors: [
+        AppColors.gradientColor1,
+        AppColors.gradientColor2,
+      ],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    ),
+  );
+
   static const kCircularRadius12 = BorderRadius.all(Radius.circular(12));
 
   static const kCircularRadius8 = BorderRadius.all(Radius.circular(8));

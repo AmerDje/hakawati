@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 abstract class AppColors {
@@ -12,6 +14,16 @@ abstract class AppColors {
   static const Color gradientColor2 = Color(0xFF23103A);
   static const Color buttonGradientColor1 = Color(0xFF5D61A4);
   static const Color buttonGradientColor2 = Color(0xFF331893);
+
+  static Color getRandomColor() {
+    final Random random = Random();
+    return Color.fromARGB(
+      255,
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
+    );
+  }
 }
 
 class HexColor extends Color {

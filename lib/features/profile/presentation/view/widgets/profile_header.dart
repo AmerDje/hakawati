@@ -1,10 +1,9 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:hakawati/core/utils/extensions/navigator.dart';
-import 'package:hakawati/core/utils/styles.dart';
+import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/features/profile/presentation/view/widgets/statistics_text.dart';
 import 'package:hakawati/features/settings/presentation/views/settings/view/settings_view.dart';
+
+import 'edge_button.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
@@ -17,29 +16,33 @@ class ProfileHeader extends StatelessWidget {
       children: [
         Container(
           height: 150,
-          decoration: const ShapeDecoration(shape: StadiumBorder(), color: Colors.indigo),
+          decoration: const ShapeDecoration(
+            shape: StadiumBorder(),
+            color: AppColors.gradientColor2,
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(width: 20),
               Stack(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 60,
+                    child: Image.asset(
+                      Assets.avatar,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   Positioned(
-                    bottom: 0,
-                    right: 0,
+                    bottom: -3,
+                    right: -3,
                     child: CircleAvatar(
-                      radius: 20,
-                      child: IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
-                            size: 25,
-                          )),
+                      radius: 24,
+                      backgroundColor: AppColors.gradientColor2,
+                      child: EdgeButton(
+                        iconData: Icons.camera_alt,
+                        onPressed: () {},
+                      ),
                     ),
                   ),
                 ],
@@ -69,18 +72,11 @@ class ProfileHeader extends StatelessWidget {
         Positioned(
           top: 0,
           right: 0,
-          child: CircleAvatar(
-            radius: 20,
-            child: IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  context.go(const SettingsView());
-                },
-                icon: const Icon(
-                  Icons.settings,
-                  color: Colors.white,
-                  size: 25,
-                )),
+          child: EdgeButton(
+            iconData: Icons.settings,
+            onPressed: () {
+              context.go(const SettingsView());
+            },
           ),
         )
       ],

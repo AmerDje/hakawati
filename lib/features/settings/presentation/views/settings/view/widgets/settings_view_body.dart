@@ -6,6 +6,7 @@ import 'package:hakawati/core/widgets/custom_elevated_icon_button.dart';
 import 'package:hakawati/features/profile/presentation/view/widgets/profile_list_tile.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
 import 'package:hakawati/features/settings/presentation/views/localization/view/language_bottom_sheet.dart';
+import 'package:hakawati/features/settings/presentation/views/theme/theme.dart';
 
 class SettingsViewBody extends StatelessWidget {
   const SettingsViewBody({
@@ -23,18 +24,13 @@ class SettingsViewBody extends StatelessWidget {
           ProfileListTile(
             title: "Theme",
             subtitle: context.read<SettingsCubit>().isDarkMode ? 'Dark' : 'Light',
-            icon: FontAwesomeIcons.solidSun,
-            trailing: Switch.adaptive(
-              value: context.watch<SettingsCubit>().isDarkMode,
-              onChanged: (value) {
-                context.read<SettingsCubit>().toggleTheme();
-              },
-            ),
+            iconData: FontAwesomeIcons.circleHalfStroke,
+            trailing: const ThemeSwitch(),
           ),
           const SizedBox(height: 10),
           ProfileListTile(
             title: "Language",
-            icon: FontAwesomeIcons.globe,
+            iconData: FontAwesomeIcons.globe,
             subtitle: Constants.kLanguages[Localizations.localeOf(context).languageCode],
             onPressed: () {
               showModalBottomSheet(
@@ -47,13 +43,13 @@ class SettingsViewBody extends StatelessWidget {
           const SizedBox(height: 10),
           ProfileListTile(
             title: "Privacy Policy",
-            icon: FontAwesomeIcons.shieldHalved,
+            iconData: FontAwesomeIcons.shieldHalved,
             onPressed: () {},
           ),
           const SizedBox(height: 10),
           ProfileListTile(
             title: "Terms & Conditions",
-            icon: FontAwesomeIcons.scroll,
+            iconData: FontAwesomeIcons.scroll,
             onPressed: () {},
           ),
           const Spacer(flex: 2),
