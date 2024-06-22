@@ -25,7 +25,7 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
     final locate = Localizations.localeOf(context).languageCode;
     final theme = Theme.of(context);
     final translate = AppLocalizations.of(context)!.translate;
-    return Scaffold(
+    return GradientScaffold(
         body: Padding(
       padding: const EdgeInsets.all(25),
       child: Column(

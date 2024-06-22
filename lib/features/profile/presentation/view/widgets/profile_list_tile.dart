@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:hakawati/core/utils/styles.dart';
 
@@ -6,7 +5,7 @@ class ProfileListTile extends StatelessWidget {
   const ProfileListTile({
     super.key,
     required this.title,
-    required this.icon,
+    required this.iconData,
     this.onPressed,
     this.subtitle,
     this.trailing = const Icon(
@@ -16,7 +15,7 @@ class ProfileListTile extends StatelessWidget {
   });
   final String title;
   final String? subtitle;
-  final IconData icon;
+  final IconData iconData;
   final VoidCallback? onPressed;
   final Widget trailing;
   @override
@@ -39,16 +38,18 @@ class ProfileListTile extends StatelessWidget {
                 style: Styles.fontStyle14(context),
               ),
         leading: Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.deepPurple,
-            ),
-            child: Icon(
-              icon,
-              size: 25,
-            )),
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.grey.shade600.withOpacity(.3),
+          ),
+          child: Icon(
+            iconData,
+            color: Colors.blueGrey.shade200,
+            size: 25,
+          ),
+        ),
         trailing: trailing);
   }
 }

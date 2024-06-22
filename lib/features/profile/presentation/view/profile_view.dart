@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hakawati/core/widgets/gradient_scaffold.dart';
 import 'package:hakawati/features/home/presentation/view/widgets/stories_history_list_view.dart';
 import 'package:hakawati/features/home/presentation/view/widgets/stories_list_header.dart';
 
@@ -12,7 +12,7 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GradientScaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
         child: SingleChildScrollView(
@@ -32,19 +32,19 @@ class ProfileView extends StatelessWidget {
               const SizedBox(height: 20),
               ProfileListTile(
                 title: "Liked Content",
-                icon: FontAwesomeIcons.heart,
+                iconData: FontAwesomeIcons.heart,
                 onPressed: () {},
               ),
               const SizedBox(height: 10),
               ProfileListTile(
                 title: "Edit Profile",
-                icon: FontAwesomeIcons.userPen,
+                iconData: FontAwesomeIcons.userPen,
                 onPressed: () {},
               ),
               const SizedBox(height: 10),
               ProfileListTile(
                 title: "About Us",
-                icon: FontAwesomeIcons.userGroup,
+                iconData: FontAwesomeIcons.userGroup,
                 onPressed: () {},
               ),
               const SizedBox(height: 80),
