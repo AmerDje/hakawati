@@ -5,3 +5,4 @@ export 'custom_password_field.dart';
 export 'glass_filter.dart';
 export 'gradient_scaffold.dart';
 export 'custom_elevated_icon_button.dart';
+export 'cached_image_view.dart';
