@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hakawati/core/error/failure.dart';
@@ -12,16 +15,19 @@ class AuthRepositoryImpl implements AuthRepository {
   final FirebaseFirestore _firebaseFirestore;
   final GoogleSignIn _googleSignIn;
   final FacebookAuth _facebookAuth;
+  final FirebaseStorage _firebaseStorage;
 
-  AuthRepositoryImpl(
-      {required FirebaseAuth firebaseAuth,
-      required FirebaseFirestore firebaseFirestore,
-      required GoogleSignIn googleSignIn,
-      required FacebookAuth facebookAuth})
-      : _firebaseAuth = firebaseAuth,
+  AuthRepositoryImpl({
+    required FirebaseAuth firebaseAuth,
+    required FirebaseFirestore firebaseFirestore,
+    required GoogleSignIn googleSignIn,
+    required FacebookAuth facebookAuth,
+    required FirebaseStorage firebaseStorage,
+  })  : _firebaseAuth = firebaseAuth,
         _firebaseFirestore = firebaseFirestore,
         _googleSignIn = googleSignIn,
-        _facebookAuth = facebookAuth;
+        _facebookAuth = facebookAuth,
+        _firebaseStorage = firebaseStorage;
   @override
   Either<Failure, UserModel> currentUser() {
     try {
@@ -112,6 +118,32 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await _firebaseFirestore.collection('users').doc(user.uid).set(user.toJson());
       return Right(user);
+    } on FirebaseAuthException catch (e) {
+      return Left(Failure(message: e.message ?? 'An error occurred'));
+    } catch (e) {
+      return Left(Failure(message: "An error occurred"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateUser(String userId, Map<String, dynamic> updates) async {
+    try {
+      await _firebaseFirestore.collection('users').doc(userId).update(updates);
+      return const Right(true);
+    } on FirebaseAuthException catch (e) {
+      return Left(Failure(message: e.message ?? 'An error occurred'));
+    } catch (e) {
+      return Left(Failure(message: "An error occurred"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> uploadImage(File image) async {
+    try {
+      UploadTask uploadTask = _firebaseStorage.ref('uploads/${image.path.split('/').last}').putFile(image);
+      TaskSnapshot taskSnapshot = await uploadTask;
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      return Right(downloadUrl);
     } on FirebaseAuthException catch (e) {
       return Left(Failure(message: e.message ?? 'An error occurred'));
     } catch (e) {

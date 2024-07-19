@@ -2,72 +2,36 @@ import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/core/common/common.dart';
+import 'package:hakawati/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:image_picker/image_picker.dart';
 
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit() : super(const ProfileState());
+  final AuthRepositoryImpl authRepository;
+  ProfileCubit({required this.authRepository}) : super(const ProfileState());
 
-  void pickProfileImage({required ImageSource source}) async {
+  void pickProfileImage({required ImageSource source, required String uid}) async {
     try {
       final pickedFile = await ImagePicker().pickImage(
         source: source,
       );
-      // emit(state.copyWith(actionState: const LoadingState()));
       if (pickedFile != null) {
         emit(state.copyWith(actionState: LoadedState(data: File(pickedFile.path))));
-        // firebase_storage.FirebaseStorage.instance
-        //     .ref(
-        //         'uploads/${AppBloc.get(context).postImage!.path.split('/').last}')
-        //     .putFile(AppBloc.get(context).postImage!)
-        //     .then((p0) {
-        //   debugPrint(p0.state.name);
-
-        //   p0.ref.getDownloadURL().then((value) {
-        //     PostDataModel model = PostDataModel(
-        //       image: value,
-        //       likes: [],
-        //       ownerImage: AppBloc.get(context).user!.image,
-        //       ownerName: AppBloc.get(context).user!.username,
-        //       shares: 0,
-        //       text: postTextController.text,
-        //       time: formattedDate,
-        //       comments: [],
-        //     );
-
-        //     FirebaseFirestore.instance
-        //         .collection('posts')
-        //         .add(model.toJson())
-        //         .then((value) {
-        //       setState(() {
-        //         isClicked = false;
-        //       });
-
-        //       navigateAndFinish(
-        //         context,
-        //         const HomeScreen(),
-        //       );
-        //     }).catchError((error) {
-        //       Fluttertoast.showToast(
-        //         msg: error.toString(),
-        //       );
-        //     });
-        //   }).catchError((error) {
-        //     Fluttertoast.showToast(
-        //       msg: error.toString(),
-        //     );
-        //   });
-        // })
-        //     .catchError((error) {
-        //   Fluttertoast.showToast(
-        //     msg: error.toString(),
-        //   );
-        // });
+        uploadProfileImage(pickedFile.path, uid);
       } else {
         emit(state.copyWith(actionState: const ErrorState(data: 'No image selected')));
       }
     } catch (_) {}
+  }
+
+  void uploadProfileImage(String imagePath, String uid) async {
+    emit(state.copyWith(actionState: const LoadingState()));
+    final result = await authRepository.uploadImage(File(imagePath));
+    result.fold((failure) => emit(state.copyWith(actionState: ErrorState(data: failure.message))), (imageUrl) {
+      emit(state.copyWith(actionState: LoadedState(data: imageUrl)));
+      authRepository.updateUser(uid, {'image_url': imageUrl});
+    });
   }
 
   void deleteImage() {

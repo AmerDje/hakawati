@@ -17,6 +17,10 @@ class AuthCubit extends HydratedCubit<AuthState> {
     }
   }
 
+  void updateUser(UserModel user) async {
+    emit(state.copyWith(user: user));
+  }
+
   void logout() async {
     emit(const AuthState.unauthenticated());
     clear();
