@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/config/locale/locale.dart';
-import 'package:hakawati/core/utils/colors.dart';
-import 'package:hakawati/core/utils/constants.dart';
-import 'package:hakawati/core/utils/extensions/media_query.dart';
-import 'package:hakawati/core/utils/styles.dart';
+import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/core/widgets/widgets.dart';
 import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
 import 'package:hakawati/features/settings/presentation/views/onboarding/onboarding.dart';
@@ -17,25 +14,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  late PageController _pageController;
   int _currentPage = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-    _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page!.round();
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +31,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   children: [
                     PageView.builder(
                       physics: const BouncingScrollPhysics(),
-                      controller: _pageController,
+                      onPageChanged: (value) => setState(() {
+                        _currentPage = value;
+                      }),
                       itemBuilder: (context, index) =>
                           OnboardingItem(onboardingEntity: Constants.kOnboardingData[index]),
                       itemCount: Constants.kOnboardingData.length,

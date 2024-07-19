@@ -4,10 +4,12 @@ import 'package:hakawati/core/utils/styles.dart';
 class CustomTextButton extends StatelessWidget {
   final String btnText;
   final VoidCallback? onPressed;
+  final bool applyUnderLine;
   const CustomTextButton({
     super.key,
     required this.btnText,
     this.onPressed,
+     this.applyUnderLine = true,
   });
 
   @override
@@ -17,7 +19,7 @@ class CustomTextButton extends StatelessWidget {
       child: Text(
         btnText,
         style: Styles.fontStyle14(context).copyWith(
-          decoration: TextDecoration.underline,
+          decoration: applyUnderLine ? TextDecoration.underline : null,
           decorationColor: Colors.yellow,
           color: Colors.yellow,
         ),
