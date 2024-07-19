@@ -41,4 +41,35 @@ abstract class Styles {
   static TextStyle fontStyle12(BuildContext context) => getTextStyle(context, 12.0);
 
   static TextStyle fontStyle10(BuildContext context) => getTextStyle(context, 10.0);
+
+  static List<TextSpan> getTextSpans(String text, Map<String, Color> coloredWords, TextStyle style) {
+    List<TextSpan> textSpans = [];
+    int startIndex = 0;
+
+    for (var word in coloredWords.keys) {
+      int index = text.indexOf(word, startIndex);
+      if (index != -1) {
+        if (index > startIndex) {
+          textSpans.add(TextSpan(
+            text: text.substring(startIndex, index),
+            style: style,
+          ));
+        }
+        textSpans.add(TextSpan(
+          text: word,
+          style: style.copyWith(color: coloredWords[word]),
+        ));
+        startIndex = index + word.length;
+      }
+    }
+
+    if (startIndex < text.length) {
+      textSpans.add(TextSpan(
+        text: text.substring(startIndex),
+        style: style,
+      ));
+    }
+
+    return textSpans;
+  }
 }

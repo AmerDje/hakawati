@@ -26,7 +26,6 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
-
   ServicesLocator.init();
   await Firebase.initializeApp();
 
