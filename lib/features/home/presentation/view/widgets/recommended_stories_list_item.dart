@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hakawati/core/utils/utils.dart';
-import 'package:hakawati/core/widgets/widgets.dart';
+import 'package:hakawati/core/widgets/custom_elevated_icon_button.dart';
 
 import 'gradient_foreground.dart';
 import 'icon_chip.dart';
@@ -49,17 +49,20 @@ class RecommendedStoriesListItem extends StatelessWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    CustomElevatedButton(
-                        fixedSize: const Size(100, 35),
-                        onPressed: () {
-                          context.go(const StoryDetailView());
-                        },
-                        child: Text(
-                          'Start',
-                          style: Styles.fontStyle16(context).copyWith(
-                            color: Theme.of(context).secondaryHeaderColor,
-                          ),
-                        )),
+                    CustomElevatedIconButton(
+                      icon: FontAwesomeIcons.readme,
+                      onPressed: () {
+                        context.go(const StoryDetailView());
+                      },
+                      borderSide: BorderSide(width: 1, color: Theme.of(context).secondaryHeaderColor),
+                      iconSize: 18,
+                      child: Text(
+                        ' Read',
+                        style: Styles.fontStyle16(context).copyWith(
+                          color: Theme.of(context).secondaryHeaderColor,
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

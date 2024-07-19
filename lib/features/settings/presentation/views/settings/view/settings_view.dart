@@ -11,6 +11,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GradientScaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         leading: const AppBarLeadingButton(),
