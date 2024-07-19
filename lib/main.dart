@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/core/bloc_observer.dart';
+import 'package:hakawati/core/common/global/global_store.dart';
 import 'package:hakawati/core/service/service_locator.dart';
 import 'package:hakawati/features/auth/auth.dart';
 import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
@@ -43,11 +44,11 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) =>
-              SettingsCubit(platformBrightness: WidgetsBinding.instance.platformDispatcher.platformBrightness),
+        BlocProvider<GlobalBloc>(create: (_) => sl.get<GlobalBloc>()),
+        BlocProvider<SettingsCubit>(
+          create: (_) => sl.get<SettingsCubit>(),
         ),
-        BlocProvider(create: (_) => AuthCubit()),
+        BlocProvider<AuthCubit>(create: (_) => sl.get<AuthCubit>()),
       ],
       child: const MainApp(),
     ),
