@@ -11,13 +11,15 @@ abstract class Styles {
   }
 
   // Headings
-  static TextStyle fontStyle48(BuildContext context) =>
-      getTextStyle(context, 48.0).copyWith(fontWeight: FontWeight.bold);
-
   static TextStyle fontStyle54(BuildContext context) =>
       getTextStyle(context, 54.0).copyWith(fontWeight: FontWeight.bold);
 
+  static TextStyle fontStyle48(BuildContext context) =>
+      getTextStyle(context, 48.0).copyWith(fontWeight: FontWeight.bold);
+
   static TextStyle fontStyle40(BuildContext context) => getTextStyle(context, 40.0);
+
+  static TextStyle fontStyle36(BuildContext context) => getTextStyle(context, 36.0);
 
   static TextStyle fontStyle32(BuildContext context) => getTextStyle(context, 32.0);
 
@@ -42,11 +44,11 @@ abstract class Styles {
 
   static TextStyle fontStyle10(BuildContext context) => getTextStyle(context, 10.0);
 
-  static List<TextSpan> getTextSpans(String text, Map<String, Color> coloredWords, TextStyle style) {
+  static List<TextSpan> getTextSpans(String text, List<String> coloredWords, TextStyle style, Color color) {
     List<TextSpan> textSpans = [];
     int startIndex = 0;
 
-    for (var word in coloredWords.keys) {
+    for (var word in coloredWords) {
       int index = text.indexOf(word, startIndex);
       if (index != -1) {
         if (index > startIndex) {
@@ -56,8 +58,8 @@ abstract class Styles {
           ));
         }
         textSpans.add(TextSpan(
-          text: word,
-          style: style.copyWith(color: coloredWords[word]),
+          text: word.substring(1),
+          style: style.copyWith(color: color),
         ));
         startIndex = index + word.length;
       }

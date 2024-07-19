@@ -10,28 +10,30 @@ class AppBarLeadingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
-      child: CircleAvatar(
-        radius: 25,
-        backgroundColor: Theme.of(context).secondaryHeaderColor,
-        child: CircleAvatar(
-          radius: 23,
-          backgroundColor: Colors.deepPurple,
-          child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Transform.flip(
-                transformHitTests: false,
-                flipY: true,
-                child: RotatedBox(
-                    quarterTurns: 2,
-                    child: Icon(
-                      FontAwesomeIcons.share,
-                      color: Theme.of(context).secondaryHeaderColor,
-                      size: 25,
-                    )),
-              )),
-        ),
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+            color: Colors.deepPurple,
+            shape: CircleBorder(
+              side: BorderSide(
+                color: Theme.of(context).secondaryHeaderColor,
+                width: 2,
+              ),
+            )),
+        child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Transform.flip(
+              transformHitTests: false,
+              flipY: true,
+              child: RotatedBox(
+                  quarterTurns: 2,
+                  child: Icon(
+                    FontAwesomeIcons.share,
+                    color: Theme.of(context).secondaryHeaderColor,
+                    size: 25,
+                  )),
+            )),
       ),
     );
   }
