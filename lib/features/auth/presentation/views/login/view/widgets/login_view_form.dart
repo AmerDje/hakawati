@@ -119,7 +119,7 @@ class _LoginViewFormState extends State<LoginViewForm> {
                   }
                   context.go(const BottomNavbarView());
                 } else if (state is LoginFailure) {
-                  showSnackBar(context, state.errMessage);
+                  showSnackBar(context, state.errMessage, isError: true);
                 }
               },
               builder: (context, state) {
