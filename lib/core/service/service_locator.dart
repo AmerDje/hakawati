@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart' show WidgetsBinding;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get_it/get_it.dart';
@@ -28,13 +29,16 @@ class ServicesLocator {
     sl.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
     sl.registerLazySingleton<GoogleSignIn>(() => GoogleSignIn());
     sl.registerLazySingleton<FacebookAuth>(() => FacebookAuth.instance);
+    sl.registerLazySingleton<FirebaseStorage>(() => FirebaseStorage.instance);
 
     // Repository sl
     sl.registerLazySingleton<AuthRepositoryImpl>(() => AuthRepositoryImpl(
-        firebaseAuth: sl.get<FirebaseAuth>(),
-        firebaseFirestore: sl.get<FirebaseFirestore>(),
-        googleSignIn: sl.get<GoogleSignIn>(),
-        facebookAuth: sl.get<FacebookAuth>()));
+          firebaseAuth: sl.get<FirebaseAuth>(),
+          firebaseFirestore: sl.get<FirebaseFirestore>(),
+          googleSignIn: sl.get<GoogleSignIn>(),
+          facebookAuth: sl.get<FacebookAuth>(),
+          firebaseStorage: sl.get<FirebaseStorage>(),
+        ));
 
     // Cubit sl
     sl.registerFactory<RegisterCubit>(() => RegisterCubit(sl.get<AuthRepositoryImpl>()));

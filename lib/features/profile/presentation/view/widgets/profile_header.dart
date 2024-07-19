@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/core/common/bloc/state_base.dart';
 import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/core/widgets/cached_image_view.dart';
+import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:hakawati/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:hakawati/features/profile/presentation/view/widgets/statistics_text.dart';
 import 'package:hakawati/features/settings/presentation/views/settings/view/settings_view.dart';
@@ -34,7 +35,20 @@ class ProfileHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(width: 20),
-              BlocBuilder<ProfileCubit, ProfileState>(
+              BlocConsumer<ProfileCubit, ProfileState>(
+                listenWhen: (previous, current) => previous.actionState != current.actionState,
+                listener: (context, state) {
+                  if (state.actionState is LoadedState) {
+                    final AuthCubit authCubit = context.read<AuthCubit>();
+                    authCubit
+                        .updateUser(authCubit.state.user.copyWith(photoUrl: (state.actionState as LoadedState).data));
+                    Navigator.pop(context);
+                  } else if (state.actionState is ErrorState) {
+                    Navigator.pop(context);
+                    showSnackBar(context, (state.actionState as ErrorState).data, isError: true);
+                  }
+                },
+                buildWhen: (previous, current) => previous.actionState != current.actionState,
                 builder: (context, state) {
                   return Stack(
                     children: [
@@ -43,7 +57,9 @@ class ProfileHeader extends StatelessWidget {
                         child: _buildPreview(
                             context: context,
                             imageData: // when getting the image from firebase also fire action state
-                                (state.actionState is LoadedState) ? (state.actionState as LoadedState).data : "",
+                                (state.actionState is LoadedState)
+                                    ? (state.actionState as LoadedState).data
+                                    : context.read<AuthCubit>().state.user.photoUrl ?? "",
                             isLoading: state.actionState is LoadingState),
                       ),
                       Positioned(
@@ -136,12 +152,12 @@ class ProfileHeader extends StatelessWidget {
           },
         ),
       );
+
   Future<void> requestPermissionAndPickImage(BuildContext context, Permission permission,
       {ImageSource source = ImageSource.gallery}) async {
     PermissionStatus status = await permission.status;
     if (status.isDenied) {
       permission.request().then((value) {
-        Navigator.pop(context);
         if (value == PermissionStatus.granted) {
           pickProfileImage(context, source: source);
         }
@@ -153,7 +169,7 @@ class ProfileHeader extends StatelessWidget {
 
   void pickProfileImage(BuildContext context, {ImageSource source = ImageSource.gallery}) {
     if (context.mounted) {
-      context.read<ProfileCubit>().pickProfileImage(source: source);
+      context.read<ProfileCubit>().pickProfileImage(source: source, uid: context.read<AuthCubit>().state.user.uid!);
     }
   }
 

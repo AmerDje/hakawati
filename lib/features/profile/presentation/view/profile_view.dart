@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hakawati/core/service/service_locator.dart';
 import 'package:hakawati/core/widgets/gradient_scaffold.dart';
+import 'package:hakawati/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:hakawati/features/home/presentation/view/widgets/stories_history_list_view.dart';
 import 'package:hakawati/features/home/presentation/view/widgets/stories_list_header.dart';
 import 'package:hakawati/features/profile/presentation/manager/profile_cubit.dart';
@@ -14,8 +16,8 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProfileCubit(),
+    return BlocProvider<ProfileCubit>(
+      create: (context) => ProfileCubit(authRepository: sl.get<AuthRepositoryImpl>()),
       child: GradientScaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
