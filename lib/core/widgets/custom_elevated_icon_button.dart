@@ -2,26 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:hakawati/core/utils/utils.dart';
 
 class CustomElevatedIconButton extends StatelessWidget {
-  const CustomElevatedIconButton({super.key, required this.text, required this.icon, required this.onPressed});
-  final String text;
+  const CustomElevatedIconButton({
+    super.key,
+    required this.child,
+    required this.icon,
+    required this.onPressed,
+    this.padding = EdgeInsets.zero,
+    this.fixedSize = const Size(95, 35),
+    this.borderSide,
+    this.iconSize = 18,
+    this.backgroundColor,
+  });
+
+  final Widget child;
   final IconData icon;
   final VoidCallback onPressed;
+  final EdgeInsetsGeometry padding;
+  final Size fixedSize;
+  final BorderSide? borderSide;
+  final double iconSize;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            fixedSize: Size(context.width, 50),
-            shape: const RoundedRectangleBorder(
-              borderRadius: Constants.kCircularRadius12,
-            )),
-        onPressed: onPressed,
-        label: Text(
-          text,
-          style: Styles.fontStyle18(context).copyWith(color: Theme.of(context).secondaryHeaderColor),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        padding: padding,
+        fixedSize: fixedSize,
+        shape: const RoundedRectangleBorder(
+          borderRadius: Constants.kCircularRadius12,
         ),
-        icon: Icon(icon, color: Theme.of(context).secondaryHeaderColor));
+        side: borderSide,
+      ),
+      onPressed: onPressed,
+      label: child,
+      icon: Icon(icon, color: Theme.of(context).secondaryHeaderColor, size: iconSize),
+    );
   }
 }

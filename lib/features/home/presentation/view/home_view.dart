@@ -18,9 +18,9 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final translate = AppLocalizations.of(context)?.translate;
     return SafeArea(
-      minimum: const EdgeInsets.only(top: 10),
       child: GradientScaffold(
         appBar: AppBar(
+          forceMaterialTransparency: true,
           backgroundColor: Colors.transparent,
           leading: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
