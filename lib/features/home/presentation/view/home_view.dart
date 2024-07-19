@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hakawati/config/locale/locale.dart';
+import 'package:hakawati/core/utils/extensions/navigator.dart';
 import 'package:hakawati/core/widgets/gradient_scaffold.dart';
+import 'package:hakawati/features/personalize/presentation/view/personalize_view.dart';
 import 'widgets/app_bar_icon.dart';
 import 'widgets/icon_chip.dart';
 import 'widgets/recommended_stories_list_view.dart';
@@ -28,7 +30,9 @@ class HomeView extends StatelessWidget {
                 color: Colors.yellow,
                 size: 30,
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.go(const PersonalizeView());
+              },
               title: 'AI',
             ),
           ),
