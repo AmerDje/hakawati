@@ -44,7 +44,7 @@ class CustomTextField extends StatelessWidget {
       validator: validator,
       onSaved: onSaved,
       onChanged: onChanged,
-      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+      //  onTapOutside: (event) => FocusScope.of(context).unfocus(),
       // onEditingComplete: () {
       //   FocusScope.of(context).nextFocus();
       // },

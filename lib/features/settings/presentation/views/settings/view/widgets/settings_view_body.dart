@@ -53,13 +53,17 @@ class SettingsViewBody extends StatelessWidget {
             onPressed: () {},
           ),
           const Spacer(flex: 2),
-          CustomElevatedIconButton(
-            icon: Icons.logout,
-            onPressed: () {},
-            child: Text(
-              "Sign Out",
-              style: Styles.fontStyle18(context).copyWith(
-                color: Theme.of(context).secondaryHeaderColor,
+          SizedBox(
+            width: context.width,
+            child: CustomElevatedIconButton(
+              icon: Icons.logout,
+              backgroundColor: Colors.transparent,
+              onPressed: () {},
+              child: Text(
+                "Sign Out",
+                style: Styles.fontStyle18(context).copyWith(
+                  color: Theme.of(context).secondaryHeaderColor,
+                ),
               ),
             ),
           ),

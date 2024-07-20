@@ -31,7 +31,7 @@ class _PasswordTextFieldState extends State<CustomPasswordField> {
       obscureText: _isHidden,
       onSaved: widget.onSaved,
       onChanged: widget.onChanged,
-      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+      // onTapOutside: (event) => FocusScope.of(context).unfocus(),
       // onEditingComplete: () {
       //   FocusScope.of(context).nextFocus();
       // },
