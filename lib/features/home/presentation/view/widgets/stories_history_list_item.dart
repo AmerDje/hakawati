@@ -7,14 +7,14 @@ import 'gradient_foreground.dart';
 import 'icon_chip.dart';
 
 class StoriesHistoryListItem extends StatelessWidget {
-  const StoriesHistoryListItem({
-    super.key,
-  });
-
+  const StoriesHistoryListItem({super.key, this.itemWidth = 220, this.endPadding = 8.0, this.showGenre = true});
+  final double itemWidth;
+  final double endPadding;
+  final bool showGenre;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.only(end: 8.0),
+      padding: EdgeInsetsDirectional.only(end: endPadding),
       child: Container(
           width: 220,
           decoration: BoxDecoration(
@@ -51,7 +51,7 @@ class StoriesHistoryListItem extends StatelessWidget {
                           //   ),
                           // ],
                         )),
-                    const GenreText(genre: 'Space')
+                    if (showGenre) const GenreText(genre: 'Space')
                   ],
                 ),
               ),

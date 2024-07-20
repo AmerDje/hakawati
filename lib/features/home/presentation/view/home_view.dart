@@ -3,10 +3,11 @@ import 'package:hakawati/config/locale/locale.dart';
 import 'package:hakawati/core/utils/extensions/navigator.dart';
 import 'package:hakawati/core/widgets/gradient_scaffold.dart';
 import 'package:hakawati/features/personalize/presentation/view/personalize_view.dart';
+import 'package:hakawati/features/profile/presentation/view/liked_content_view.dart';
 import 'widgets/app_bar_icon.dart';
 import 'widgets/icon_chip.dart';
-import 'widgets/recommended_stories_list_view.dart';
-import 'widgets/stories_history_list_view.dart';
+import 'recommended_stories_list_view.dart';
+import 'stories_history_list_view.dart';
 import 'widgets/stories_list_header.dart';
 
 class HomeView extends StatelessWidget {
@@ -40,12 +41,16 @@ class HomeView extends StatelessWidget {
           actions: [
             AppBarIcon(
               icon: Icons.history,
-              onPressed: () {},
+              onPressed: () {
+                context.go(const StoriesHistoryVerticalList());
+              },
             ),
             const SizedBox(width: 10),
             AppBarIcon(
               icon: Icons.favorite,
-              onPressed: () {},
+              onPressed: () {
+                context.go(const LikedContentView());
+              },
             ),
             const SizedBox(width: 5),
           ],
@@ -75,11 +80,19 @@ class HomeView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                StoriesListHeader(headTitle: translate!('We Recommend'), onViewAllPressed: () {}),
+                StoriesListHeader(
+                    headTitle: translate!('We Recommend'),
+                    onViewAllPressed: () {
+                      context.go(const RecommendedStoriesVerticalList());
+                    }),
                 const SizedBox(height: 20),
                 const RecommendedStoriesListView(),
                 const SizedBox(height: 40),
-                StoriesListHeader(headTitle: translate('History'), onViewAllPressed: () {}),
+                StoriesListHeader(
+                    headTitle: translate('History'),
+                    onViewAllPressed: () {
+                      context.go(const StoriesHistoryVerticalList());
+                    }),
                 const SizedBox(height: 20),
                 const StoriesHistoryListView(),
                 const SizedBox(height: 80),

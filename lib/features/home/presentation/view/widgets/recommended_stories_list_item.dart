@@ -5,19 +5,22 @@ import 'package:hakawati/core/widgets/custom_elevated_icon_button.dart';
 
 import 'gradient_foreground.dart';
 import 'icon_chip.dart';
-import 'story_details_view.dart';
+import '../story_details_view.dart';
 
 class RecommendedStoriesListItem extends StatelessWidget {
-  const RecommendedStoriesListItem({
-    super.key,
-  });
-
+  const RecommendedStoriesListItem(
+      {super.key, this.itemWidth = 220, this.endPadding = 8.0, this.showTutorial = true, this.itemHeight});
+  final double itemWidth;
+  final double? itemHeight;
+  final double endPadding;
+  final bool showTutorial;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.only(end: 8.0),
+      padding: EdgeInsetsDirectional.only(end: endPadding),
       child: Container(
-          width: 220,
+          width: itemWidth,
+          height: itemHeight,
           decoration: BoxDecoration(
             border: Border.all(color: Theme.of(context).secondaryHeaderColor, width: 0.3),
             borderRadius: BorderRadius.circular(15.0),
@@ -39,13 +42,15 @@ class RecommendedStoriesListItem extends StatelessWidget {
                       'Tutorial',
                       style: Styles.fontStyle24(context).copyWith(fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      'Lorem ipsum is just a random word used',
-                      style: Styles.fontStyle16(context),
-                    ),
+                    if (showTutorial) ...[
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        'Lorem ipsum is just a random word used',
+                        style: Styles.fontStyle16(context),
+                      ),
+                    ],
                     const SizedBox(
                       height: 5,
                     ),

@@ -90,11 +90,11 @@ class _RegisterViewFormState extends State<RegisterViewForm> {
               Text("Phone number", style: Styles.fontStyle16(context)),
               CustomTextField(
                 inputFormatters: [
-                  LengthLimitingTextInputFormatter(14),
+                  LengthLimitingTextInputFormatter(13),
                   FilteringTextInputFormatter.digitsOnly,
                   NumberTextInputFormatter()
                 ],
-                hintText: '06 64 12 34 56',
+                hintText: '0666 ** ** **',
                 onSaved: (value) {
                   phone = value;
                 },

@@ -3,11 +3,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/core/widgets/widgets.dart';
 import 'package:hakawati/features/home/presentation/view/widgets/genre_text.dart';
-import 'package:hakawati/features/settings/presentation/views/settings/view/widgets/appbar_leading_button.dart';
+import 'package:hakawati/core/widgets/appbar_leading_button.dart';
 
-import 'add_favorite_button.dart';
-import 'gradient_foreground.dart';
-import 'icon_chip.dart';
+import 'widgets/add_favorite_button.dart';
+import 'widgets/gradient_foreground.dart';
+import 'widgets/icon_chip.dart';
 
 class StoryDetailView extends StatelessWidget {
   const StoryDetailView({super.key});
@@ -90,13 +90,17 @@ class StoryDetailView extends StatelessWidget {
               top: 0,
               child: AppBarLeadingButton(),
             ),
-            AddFavoriteButton(
-              onAddFav: () {
-                debugPrint("Tapped");
-              },
-              onRemoveFav: () {
-                debugPrint("removed");
-              },
+            PositionedDirectional(
+              end: 20,
+              top: context.height * 0.5,
+              child: AddFavoriteButton(
+                onAddFav: () {
+                  debugPrint("Tapped");
+                },
+                onRemoveFav: () {
+                  debugPrint("removed");
+                },
+              ),
             ),
           ],
         ),
