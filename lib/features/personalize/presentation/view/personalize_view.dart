@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/core/widgets/widgets.dart';
 
-import '../../../settings/presentation/views/settings/view/widgets/appbar_leading_button.dart';
+import '../../../../core/widgets/appbar_leading_button.dart';
 import '../manager/personalize_cubit.dart';
 import 'widgets/personalize_view_body.dart';
 
