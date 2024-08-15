@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
     this.icon,
     this.controller,
     this.readOnly = false,
+    this.enabled = true,
     this.textType,
     this.obscure = false,
     // this.isLast = false,
@@ -27,6 +28,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? textType;
   final String? hintText;
   final bool obscure;
+  final bool enabled;
   final List<TextInputFormatter>? inputFormatters;
   //final bool isLast;
   final void Function(String?)? onSaved;
@@ -39,6 +41,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       onTap: onTap,
       controller: controller,
       validator: validator,
@@ -68,21 +71,19 @@ class CustomTextField extends StatelessWidget {
         fillColor: Colors.white.withOpacity(.1),
         filled: true,
         hintText: hintText,
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: Theme.of(context).primaryColor),
-          borderRadius: Constants.kCircularRadius12,
-        ),
-        focusedErrorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: Colors.red),
-          borderRadius: Constants.kCircularRadius12,
-        ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(width: 1.5, color: Colors.red),
-          borderRadius: Constants.kCircularRadius12,
-        ),
+        focusedBorder: _styleBorder(width: 1, color: Theme.of(context).primaryColor),
+        focusedErrorBorder: _styleBorder(width: 1, color: Colors.red),
+        errorBorder: _styleBorder(width: 1.5, color: Colors.red),
+        disabledBorder: _styleBorder(),
         suffixIcon: icon,
-        enabledBorder: const OutlineInputBorder(
-            borderRadius: Constants.kCircularRadius12, borderSide: BorderSide(width: 0, color: Colors.transparent)),
+        enabledBorder: _styleBorder(),
         border: const OutlineInputBorder(borderSide: BorderSide(width: 1)));
+  }
+
+  OutlineInputBorder _styleBorder({double width = 0, Color color = Colors.transparent}) {
+    return OutlineInputBorder(
+      borderRadius: Constants.kCircularRadius12,
+      borderSide: BorderSide(width: width, color: color),
+    );
   }
 }
