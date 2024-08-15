@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/core/common/common.dart';
+import 'package:hakawati/features/auth/data/models/user.dart';
 import 'package:hakawati/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -36,5 +37,14 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   void deleteImage() {
     emit(state.copyWith(actionState: const InitState()));
+  }
+
+  Future<void> updateUser(UserModel user) async {
+    emit(UpdateUserProfileLoading());
+    final result = await authRepository.updatePersonalData(user);
+    result.fold(
+      (failure) => emit(UpdateUserProfileFailure(errMessage: failure.message)),
+      (user) => emit(UpdateUserProfileSuccess(user: user)),
+    );
   }
 }

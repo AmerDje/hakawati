@@ -15,17 +15,22 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ProfileImageView extends StatelessWidget {
-  const ProfileImageView({super.key, this.size = 120});
+  const ProfileImageView({super.key, this.size = 120, this.onUpdate});
   final double size;
+  final void Function(String?)? onUpdate;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileCubit, ProfileState>(
       listenWhen: (previous, current) => previous.actionState != current.actionState,
       listener: (context, state) {
         if (state.actionState is LoadedState) {
-          final AuthCubit authCubit = context.read<AuthCubit>();
-          authCubit.updateUser(authCubit.state.user.copyWith(photoUrl: (state.actionState as LoadedState).data));
-          Navigator.pop(context);
+          if (onUpdate == null) {
+            final AuthCubit authCubit = context.read<AuthCubit>();
+            authCubit.updateUser(authCubit.state.user.copyWith(photoUrl: (state.actionState as LoadedState).data));
+            Navigator.pop(context);
+          } else {
+            onUpdate!((state.actionState as LoadedState).data);
+          }
         } else if (state.actionState is ErrorState) {
           Navigator.pop(context);
           showSnackBar(context, (state.actionState as ErrorState).data, isError: true);
