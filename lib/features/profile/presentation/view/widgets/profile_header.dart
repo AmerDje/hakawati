@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hakawati/core/service/service_locator.dart';
 import 'package:hakawati/core/utils/utils.dart';
+import 'package:hakawati/features/auth/data/models/user.dart';
+import 'package:hakawati/features/auth/data/repository/auth_repository_impl.dart';
+import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
+import 'package:hakawati/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:hakawati/features/profile/presentation/view/widgets/profile_image_view.dart';
 import 'package:hakawati/features/profile/presentation/view/widgets/statistics_text.dart';
 import 'package:hakawati/features/settings/presentation/views/settings/view/settings_view.dart';
@@ -12,6 +18,7 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserModel user = context.read<AuthCubit>().state.user;
     return Stack(
       children: [
         Container(
@@ -24,13 +31,16 @@ class ProfileHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(width: 20),
-              const ProfileImageView(),
+              BlocProvider(
+                create: (context) => ProfileCubit(authRepository: sl.get<AuthRepositoryImpl>()),
+                child: const ProfileImageView(),
+              ),
               const Spacer(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Hi, User Name",
+                  Text("Hi, ${user.name}",
                       style: Styles.fontStyle26(context).copyWith(color: Theme.of(context).secondaryHeaderColor)),
                   const Row(
                     children: [

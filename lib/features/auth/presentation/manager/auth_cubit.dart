@@ -1,11 +1,33 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:hakawati/features/auth/data/models/user.dart';
+//import 'package:hakawati/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends HydratedCubit<AuthState> {
-  AuthCubit() : super(const AuthState.unknown());
+  // final AuthRepositoryImpl authRepositoryImpl;
+  AuthCubit(//{required this.authRepositoryImpl}
+      )
+      : super(const AuthState.unknown()); //{
+  // _authenticationStatusSubscription = authRepositoryImpl.status.listen(
+  //   (status) => updateAuthStatus(status),
+  // );
+  //}
+
+//  late StreamSubscription<Map<String, dynamic>> _authenticationStatusSubscription;
+
+  @override
+  Future<void> close() {
+    // _authenticationStatusSubscription.cancel();
+    // authRepositoryImpl.dispose();
+    if (state.isRemembered == false) {
+      logout();
+    }
+    return super.close();
+  }
 
   void updateAuthStatus(dynamic response) async {
     if (response['token'] != null && response['token'] != '') {
@@ -18,12 +40,18 @@ class AuthCubit extends HydratedCubit<AuthState> {
   }
 
   void updateUser(UserModel user) async {
-    emit(state.copyWith(user: user));
+    final UserModel receivedUser = user;
+    final UserModel updateUser = state.user.copyWith(
+      name: receivedUser.name,
+      email: receivedUser.email,
+      phoneNumber: receivedUser.phoneNumber,
+    );
+    emit(state.copyWith(user: updateUser));
   }
 
   void logout() async {
-    emit(const AuthState.unauthenticated());
     clear();
+    emit(const AuthState.unauthenticated());
   }
 
   @override
@@ -37,13 +65,5 @@ class AuthCubit extends HydratedCubit<AuthState> {
   @override
   Map<String, dynamic> toJson(AuthState state) {
     return state.toJson();
-  }
-
-  @override
-  Future<void> close() async {
-    if (state.isRemembered == false) {
-      logout();
-    }
-    super.close();
   }
 }

@@ -74,7 +74,6 @@ class MainApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           themeMode: settings.themeMode,
           home: BlocBuilder<AuthCubit, AuthState>(
-            buildWhen: (previous, current) => previous.status != current.status,
             builder: (_, authState) {
               return _getWidget(settings, authState);
             },
