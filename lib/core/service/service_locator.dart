@@ -45,6 +45,6 @@ class ServicesLocator {
     sl.registerFactory<GlobalBloc>(() => GlobalBloc());
     sl.registerFactory<SettingsCubit>(
         () => SettingsCubit(platformBrightness: WidgetsBinding.instance.platformDispatcher.platformBrightness));
-    sl.registerFactory<AuthCubit>(() => AuthCubit());
+    sl.registerFactory<AuthCubit>(() => AuthCubit()); //authRepositoryImpl: sl.get<AuthRepositoryImpl>()));
   }
 }

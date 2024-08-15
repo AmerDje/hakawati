@@ -19,7 +19,7 @@ abstract class AuthRepository {
   Future<Either<Failure, UserModel>> signInWithGoogle();
   Future<Either<Failure, UserModel>> signInWithFacebook();
   Future<Either<Failure, bool>> reloadUserStatus();
-  Future<Either<Failure, bool>> updatePersonalData(UserModel user);
+  Future<Either<Failure, UserModel>> updatePersonalData(UserModel user);
   Future<Either<Failure, bool>> deleteUser();
   Future<Either<Failure, bool>> deletePersonalData(String? uid);
 }

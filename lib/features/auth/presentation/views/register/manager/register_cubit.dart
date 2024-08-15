@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hakawati/features/auth/data/models/user.dart';
@@ -32,17 +31,17 @@ class RegisterCubit extends Cubit<RegisterState> {
         photoUrl: 'https://img.freepik.com/premium-vector/bearded-smiling-man-with-arms-crossed_165429-132.jpg?w=740',
       );
       final result = await authRepository.createUser(userModel);
-      result.fold(
-          (failure) => RegisterFailure(errMessage: failure.message), (user) => emit(RegisterSuccess(user: userModel)));
+      result.fold((failure) => emit(RegisterFailure(errMessage: failure.message)),
+          (user) => emit(RegisterSuccess(user: userModel)));
     });
   }
 
   Future<void> updateUser(UserModel user) async {
-    emit(RegisterLoading());
+    emit(UpdateUserLoading());
     final result = await authRepository.updatePersonalData(user);
     result.fold(
-      (failure) => RegisterFailure(errMessage: failure.message),
-      (isUpdated) => debugPrint("User Update $isUpdated"),
+      (failure) => emit(UpdateUserFailure(errMessage: failure.message)),
+      (user) => emit(UpdateUserSuccess(user: user)),
     );
   }
 
@@ -72,5 +71,19 @@ class RegisterCubit extends Cubit<RegisterState> {
     var result = await authRepository.deleteUser();
     result.fold(
         (failure) => emit(DeleteUserFailure(errMessage: failure.message)), (success) => emit(DeleteUserSuccess()));
+  }
+
+  Future<void> signInWithGoogle() async {
+    emit(SignInWithGoogleLoading());
+    var result = await authRepository.signInWithGoogle();
+    result.fold((failure) => emit(SignInWithGoogleFailure(errMessage: failure.message)),
+        (googleUser) => emit(SignInWithGoogleSuccess(googleUser: googleUser)));
+  }
+
+  Future<void> signInWithFacebook() async {
+    emit(SignInWithFacebookLoading());
+    var result = await authRepository.signInWithFacebook();
+    result.fold((failure) => emit(SignInWithFacebookFailure(errMessage: failure.message)),
+        (facebookUser) => emit(SignInWithFacebookSuccess(facebookUser: facebookUser)));
   }
 }

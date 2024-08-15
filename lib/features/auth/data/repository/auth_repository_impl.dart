@@ -1,3 +1,4 @@
+// import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,6 +17,13 @@ class AuthRepositoryImpl implements AuthRepository {
   final GoogleSignIn _googleSignIn;
   final FacebookAuth _facebookAuth;
   final FirebaseStorage _firebaseStorage;
+  // final _controller = StreamController<Map<String, dynamic>>();
+
+  // Stream<Map<String, dynamic>> get status async* {
+  //   yield* _controller.stream;
+  // }
+
+  // void dispose() => _controller.close();
 
   AuthRepositoryImpl({
     required FirebaseAuth firebaseAuth,
@@ -193,6 +201,7 @@ class AuthRepositoryImpl implements AuthRepository {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+
       final UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
       final user = userCredential.user;
 
@@ -201,7 +210,7 @@ class AuthRepositoryImpl implements AuthRepository {
         email: user.email,
         name: user.displayName, // Use display name from Google account
         photoUrl: user.photoURL,
-        emailVerified: user.emailVerified,
+        emailVerified: true,
       ));
     } on FirebaseAuthException catch (e) {
       return Left(Failure(message: e.message ?? 'An error occurred'));
@@ -213,9 +222,8 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, UserModel>> signInWithFacebook() async {
     try {
-      final result = await _facebookAuth.login();
+      final LoginResult loginResult = await _facebookAuth.login();
       // Obtain a Facebook Access Token (requires Facebook Login SDK)
-      final LoginResult loginResult = result;
       if (loginResult.status == LoginStatus.success) {
         final accessToken = loginResult.accessToken;
 
@@ -246,6 +254,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, UserModel>> logout() async {
     try {
       await _firebaseAuth.signOut();
+      //   _controller.add({'token': null});
       return const Right(UserModel()); // Indicate successful logout without user object
     } catch (e) {
       return Left(Failure(message: "An error occurred"));
@@ -265,10 +274,12 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> updatePersonalData(UserModel user) async {
+  Future<Either<Failure, UserModel>> updatePersonalData(UserModel user) async {
     try {
-      await _firebaseFirestore.collection('users').doc(user.uid).update(user.toJson());
-      return const Right(true);
+      final Map<String, dynamic> userModel = user.toJson();
+      userModel.removeWhere((key, value) => value == null || value == '');
+      await _firebaseFirestore.collection('users').doc(user.uid).update(userModel);
+      return Right(user);
     } on FirebaseAuthException catch (e) {
       return Left(Failure(message: e.message ?? 'An error occurred'));
     } catch (e) {

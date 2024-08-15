@@ -84,31 +84,3 @@ class NoImage extends StatelessWidget {
     );
   }
 }
-
-class ImageErrorUserView extends StatelessWidget {
-  const ImageErrorUserView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-    return LayoutBuilder(
-      builder: (_, BoxConstraints constraints) {
-        double width = constraints.maxWidth != double.infinity ? constraints.maxWidth : 100;
-        double height = constraints.maxHeight != double.infinity ? constraints.maxHeight : 100;
-
-        double sizeIcon = width > height ? height * 24 / 60 : width * 24 / 60;
-        return Container(
-          width: width,
-          height: height,
-          color: theme.colorScheme.surface,
-          alignment: Alignment.center,
-          child: Icon(
-            Icons.person,
-            color: theme.textTheme.bodySmall?.color,
-            size: sizeIcon,
-          ),
-        );
-      },
-    );
-  }
-}
