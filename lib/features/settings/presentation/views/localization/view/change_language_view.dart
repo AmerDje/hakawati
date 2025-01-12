@@ -17,12 +17,12 @@ class ChangeLanguageView extends StatefulWidget {
 }
 
 class _ChangeLanguageViewState extends State<ChangeLanguageView> {
-  final List options = AppLocalizationsSetup.supportedLocales.map((e) => e.languageCode).toList();
-  String _value = Constants.kDefaultLocale;
-  final List _option = [];
+  final List supportedLocales = AppLocalizationsSetup.supportedLocales.map((e) => e.languageCode).toList();
+  String selectedLocal = Constants.kDefaultLocale;
+  // final List _option = [];
   @override
   Widget build(BuildContext context) {
-    final locate = Localizations.localeOf(context).languageCode;
+    final currentLocale = Localizations.localeOf(context).languageCode;
     final theme = Theme.of(context);
     final translate = AppLocalizations.of(context)!.translate;
     return GradientScaffold(
@@ -48,7 +48,7 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
             height: 15,
           ),
           Text(
-            translate('settings:change_language'),
+            translate('change_language'),
             style: theme.textTheme.titleSmall,
           ),
           const SizedBox(
@@ -59,38 +59,47 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Column(
-                children: List.generate(
-                  options.length,
-                  (index) {
-                    var option = options[index];
-                    bool isSelect = (option == locate);
-                    return Column(
-                      children: [
-                        ListTile(
-                          title: Text(
-                            option,
-                            style: theme.textTheme.bodyMedium?.copyWith(color: isSelect ? theme.primaryColor : null),
+              child: StatefulBuilder(builder: (context, setState) {
+                return Column(
+                  children: List.generate(
+                    supportedLocales.length,
+                    (index) {
+                      var supportedLocaleItem = supportedLocales[index];
+                      bool isSelect = (supportedLocaleItem == selectedLocal);
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ListTile(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            title: Text(
+                              translate(supportedLocaleItem),
+                              style: theme.textTheme.bodyMedium
+                                  ?.copyWith(color: isSelect ? theme.secondaryHeaderColor : null),
+                              textAlign: TextAlign.center,
+                            ),
+                            trailing: isSelect
+                                ? Icon(FontAwesomeIcons.check, color: theme.secondaryHeaderColor)
+                                : const SizedBox(),
+                            minLeadingWidth: 20,
+                            horizontalTitleGap: 0,
+                            contentPadding: EdgeInsets.zero,
+                            onTap: () => setState(() {
+                              selectedLocal = supportedLocaleItem;
+                              // if (_option.isNotEmpty) {
+                              //   _option[0] = option;
+                              // } else {
+                              //   _option.add(option);
+                              // }
+                            }),
                           ),
-                          trailing:
-                              isSelect ? Icon(FontAwesomeIcons.check, color: theme.primaryColor) : const SizedBox(),
-                          minLeadingWidth: 20,
-                          contentPadding: EdgeInsets.zero,
-                          onTap: () => setState(() {
-                            _value = option;
-                            if (_option.isNotEmpty) {
-                              _option[0] = option;
-                            } else {
-                              _option.add(option);
-                            }
-                          }),
-                        ),
-                        const Divider(height: 1, thickness: 1),
-                      ],
-                    );
-                  },
-                ),
-              ),
+                          if (index != supportedLocales.length - 1)
+                            const Divider(height: 1, thickness: 1, color: Colors.grey, indent: 30, endIndent: 30),
+                        ],
+                      );
+                    },
+                  ),
+                );
+              }),
             ),
           ),
           const Spacer(),
@@ -98,13 +107,13 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
             width: double.infinity,
             child: CustomElevatedButton(
               onPressed: () {
-                if (_value != locate) {
-                  if (mounted) context.read<SettingsCubit>().changeLanguage(_value);
+                if (selectedLocal != currentLocale) {
+                  if (mounted) context.read<SettingsCubit>().changeLanguage(selectedLocal);
                 }
                 context.read<SettingsCubit>().closeTranslation();
               },
               child: Text(
-                translate('settings:apply'),
+                translate('apply'),
                 style: Styles.fontStyle16(context).copyWith(color: Theme.of(context).secondaryHeaderColor),
               ),
             ),
