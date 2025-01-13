@@ -16,7 +16,7 @@ class AuthState extends Equatable {
 
   const AuthState._({
     this.status = AuthStatus.unknown,
-    this.user = UserModel.empty,
+    this.user = const UserModel(),
     this.token = '',
     this.isRemembered = true,
   });
