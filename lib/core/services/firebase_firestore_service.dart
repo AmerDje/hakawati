@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hakawati/core/errors/exception.dart';
+import 'package:hakawati/core/errors/firebase_custom_exception.dart';
 import 'package:hakawati/core/functions/logger.dart';
 import 'package:hakawati/core/services/service_locator.dart';
 
@@ -15,10 +15,10 @@ class FirebaseFireStoreService {
       }
     } on FirebaseException catch (e) {
       avoidLog(e);
-      throw CustomException.handleFirestoreError(e);
+      throw FirebaseCustomException.handleFirestoreError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: e.toString());
+      throw FirebaseCustomException(message: e.toString());
     }
   }
 
@@ -107,10 +107,10 @@ class FirebaseFireStoreService {
       }
     } on FirebaseException catch (e) {
       avoidLog(e);
-      throw CustomException.handleFirestoreError(e);
+      throw FirebaseCustomException.handleFirestoreError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: e.toString());
+      throw FirebaseCustomException(message: e.toString());
     }
   }
 
@@ -120,10 +120,10 @@ class FirebaseFireStoreService {
       await firestore.collection(path).doc(documentId).update(data);
     } on FirebaseException catch (e) {
       avoidLog(e);
-      throw CustomException.handleFirestoreError(e);
+      throw FirebaseCustomException.handleFirestoreError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: e.toString());
+      throw FirebaseCustomException(message: e.toString());
     }
   }
 
@@ -132,10 +132,10 @@ class FirebaseFireStoreService {
       await firestore.collection(path).doc(documentId).delete();
     } on FirebaseException catch (e) {
       avoidLog(e);
-      throw CustomException.handleFirestoreError(e);
+      throw FirebaseCustomException.handleFirestoreError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: e.toString());
+      throw FirebaseCustomException(message: e.toString());
     }
   }
 
@@ -145,10 +145,10 @@ class FirebaseFireStoreService {
       return data.exists;
     } on FirebaseException catch (e) {
       avoidLog(e);
-      throw CustomException.handleFirestoreError(e);
+      throw FirebaseCustomException.handleFirestoreError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: e.toString());
+      throw FirebaseCustomException(message: e.toString());
     }
   }
 }
