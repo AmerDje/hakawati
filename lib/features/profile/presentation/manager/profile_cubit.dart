@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/core/global/state_base/state_base.dart';
 import 'package:hakawati/core/utils/endpoints.dart';
 import 'package:hakawati/features/auth/data/models/user.dart';
-import 'package:hakawati/features/auth/data/repository/auth_repository_impl.dart';
+import 'package:hakawati/features/auth/data/repository/auth_repository.dart';
 import 'package:image_picker/image_picker.dart';
 
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  final AuthRepositoryImpl authRepository;
+  final AuthRepository authRepository;
   ProfileCubit({required this.authRepository}) : super(const ProfileState());
 
   void pickProfileImage({required ImageSource source, required UserModel user}) async {

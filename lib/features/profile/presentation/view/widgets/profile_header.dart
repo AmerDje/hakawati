@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/core/services/service_locator.dart';
 import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/features/auth/data/models/user.dart';
-import 'package:hakawati/features/auth/data/repository/auth_repository_impl.dart';
+import 'package:hakawati/features/auth/data/repository/auth_repository.dart';
 import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:hakawati/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:hakawati/features/profile/presentation/view/widgets/profile_image_view.dart';
@@ -32,7 +32,7 @@ class ProfileHeader extends StatelessWidget {
             children: [
               const SizedBox(width: 20),
               BlocProvider(
-                create: (context) => ProfileCubit(authRepository: sl.get<AuthRepositoryImpl>()),
+                create: (context) => ProfileCubit(authRepository: sl.get<AuthRepository>()),
                 child: const ProfileImageView(),
               ),
               const Spacer(),
