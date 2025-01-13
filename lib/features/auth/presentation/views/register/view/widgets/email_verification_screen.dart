@@ -33,7 +33,7 @@ class EmailVerificationScreen extends StatelessWidget {
               }
               if (state is DeleteUserSuccess) {
                 context.read<AuthCubit>().updateAuthStatus({
-                  "user": UserModel.empty,
+                  "user": const UserModel(),
                   "token": null,
                 });
                 context.go(const LoginView());

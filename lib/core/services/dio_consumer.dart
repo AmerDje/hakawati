@@ -5,9 +5,9 @@ import 'dart:math' show min;
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hakawati/core/network/connectivity_checker.dart';
-import 'package:hakawati/core/api/status_code.dart';
-import 'package:hakawati/core/error/failure.dart';
+import 'package:hakawati/core/services/connectivity_checker.dart';
+import 'package:hakawati/core/services/status_code.dart';
+import 'package:hakawati/core/errors/failure.dart';
 import 'package:hakawati/core/utils/constants.dart';
 import 'package:hakawati/core/utils/strings.dart';
 
@@ -65,7 +65,7 @@ class DioConsumer implements ApiConsumer {
     // Check for internet connection
     bool isConnected = (await _connectivityChecker.isConnected);
     if (isConnected == false) {
-      final errorModel = Failure(message: "check_internet_connection");
+      final errorModel = ServerFailure("check_internet_connection");
       return Left(errorModel);
     }
 
@@ -86,9 +86,8 @@ class DioConsumer implements ApiConsumer {
           return Right(data);
         } else {
           // Handle error response
-          final errorModel = Failure(
-            statusCode: response.statusCode,
-            message: response.statusMessage ?? "something_wrong",
+          final errorModel = ServerFailure(
+            response.statusMessage ?? "something_wrong",
           );
           return Left(errorModel);
         }
@@ -97,15 +96,14 @@ class DioConsumer implements ApiConsumer {
       }
     } on DioException catch (e) {
       // Handle DioException
-      final errorMsg = Failure.fromDioError(e);
-      final errorModel = Failure(
-        statusCode: e.response?.statusCode,
-        message: errorMsg,
+      //   final errorMsg = CustomException.fromDioError(e);
+      final errorModel = ServerFailure(
+        e.message ?? "something_wrong",
       );
       return Left(errorModel);
     } catch (e) {
       // Handle other exceptions
-      final errorModel = Failure(message: e.toString().substring(0, min(60, e.toString().length)));
+      final errorModel = ServerFailure(e.toString().substring(0, min(60, e.toString().length)));
       return Left(errorModel);
     }
   }

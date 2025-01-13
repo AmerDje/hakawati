@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hakawati/core/service/service_locator.dart';
+import 'package:hakawati/core/services/service_locator.dart';
 import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/core/widgets/widgets.dart';
 import 'package:hakawati/features/auth/data/repository/auth_repository_impl.dart';

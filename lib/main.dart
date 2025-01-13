@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hakawati/core/bloc_observer.dart';
-import 'package:hakawati/core/common/global/global_store.dart';
-import 'package:hakawati/core/service/service_locator.dart';
+import 'package:hakawati/core/global/temp/temp_cache_cubit.dart';
+import 'package:hakawati/core/services/app_bloc_observer.dart';
+import 'package:hakawati/core/services/service_locator.dart';
 import 'package:hakawati/features/auth/auth.dart';
 import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:hakawati/features/auth/presentation/views/register/manager/register_cubit.dart';
@@ -15,7 +15,7 @@ import 'package:hakawati/features/settings/presentation/views/onboarding/onboard
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'config/locale/locale.dart';
-import 'core/utils/cache/prefs.dart';
+import 'core/services/prefs.dart';
 import 'core/utils/strings.dart';
 
 import 'config/theme/theme.dart';
@@ -23,14 +23,21 @@ import 'features/settings/presentation/views/localization/localization.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  ServicesLocator.init();
+  await Firebase.initializeApp();
   await Prefs.init();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
-  ServicesLocator.init();
-  await Firebase.initializeApp();
 
-  Bloc.observer = AppBlocObserver();
+  Bloc.observer = AppBlocObserver(
+    filteredBlocs: [
+      AuthCubit,
+      RegisterCubit,
+      TempCacheCubit,
+      SettingsCubit,
+    ],
+  );
   // FirebaseAuth.instance.authStateChanges().listen((User? user) {
   //   if (user == null) {
   //     //apply logout logic
@@ -44,7 +51,7 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider<GlobalBloc>(create: (_) => sl.get<GlobalBloc>()),
+        BlocProvider<TempCacheCubit>(create: (_) => sl.get<TempCacheCubit>()),
         BlocProvider<SettingsCubit>(
           create: (_) => sl.get<SettingsCubit>(),
         ),

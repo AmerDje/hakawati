@@ -4,7 +4,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hakawati/core/common/bloc/state_base.dart';
+import 'package:hakawati/core/global/state_base/state_base.dart';
 import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/core/widgets/cached_image_view.dart';
 import 'package:hakawati/core/widgets/image_upload_item.dart';
@@ -124,7 +124,7 @@ class ProfileImageView extends StatelessWidget {
 
   void pickProfileImage(BuildContext context, {ImageSource source = ImageSource.gallery}) {
     if (context.mounted) {
-      context.read<ProfileCubit>().pickProfileImage(source: source, uid: context.read<AuthCubit>().state.user.uid!);
+      context.read<ProfileCubit>().pickProfileImage(source: source, user: context.read<AuthCubit>().state.user);
     }
   }
 

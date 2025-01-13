@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hakawati/config/locale/locale.dart';
-import 'package:hakawati/core/utils/extensions/media_query.dart';
+import 'package:hakawati/core/extensions/media_query.dart';
 import 'package:hakawati/core/utils/styles.dart';
 import 'package:hakawati/features/settings/data/entities/onboarding_entity.dart';
 

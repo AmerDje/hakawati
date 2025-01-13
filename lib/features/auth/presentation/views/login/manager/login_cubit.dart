@@ -11,21 +11,12 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> login(String email, String password) async {
     emit(LoginLoading());
-    final result = await authRepository.login(email, password);
+    final result = await authRepository.loginWithEmailAndPassword(email, password);
     result.fold(
       (failure) => emit(LoginFailure(errMessage: failure.message)),
       (loggedUser) {
-        fetchUserData(loggedUser.uid!);
+        emit(LoginSuccess(user: loggedUser));
       },
-    );
-  }
-
-  Future<void> fetchUserData(String uid) async {
-    emit(LoginLoading());
-    final result = await authRepository.fetchPersonalData(uid);
-    result.fold(
-      (failure) => emit(LoginFailure(errMessage: failure.message)),
-      (loggedUser) => emit(LoginSuccess(user: loggedUser)),
     );
   }
 
@@ -40,14 +31,14 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> signInWithGoogle() async {
     emit(SignInWithGoogleLoading());
-    var result = await authRepository.signInWithGoogle();
+    var result = await authRepository.signinWithGoogle();
     result.fold((failure) => emit(SignInWithGoogleFailure(errMessage: failure.message)),
         (googleUser) => emit(SignInWithGoogleSuccess(user: googleUser)));
   }
 
   Future<void> signInWithFacebook() async {
     emit(SignInWithFacebookLoading());
-    var result = await authRepository.signInWithFacebook();
+    var result = await authRepository.signinWithFacebook();
     result.fold((failure) => emit(SignInWithFacebookFailure(errMessage: failure.message)),
         (facebookUser) => emit(SignInWithFacebookSuccess(user: facebookUser)));
   }

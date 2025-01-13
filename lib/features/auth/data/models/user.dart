@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
@@ -46,10 +47,18 @@ class UserModel {
     );
   }
 
-  static const UserModel empty = UserModel(
-      uid: '', name: '', email: '', phoneNumber: '', emailVerified: false, password: '', locate: 'en', photoUrl: '');
-
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  factory UserModel.fromFirebaseUser(User? user) {
+    return UserModel(
+      name: user?.displayName ?? '',
+      email: user?.email ?? '',
+      uid: user?.uid,
+      phoneNumber: user?.phoneNumber ?? '',
+      emailVerified: user?.emailVerified,
+      photoUrl: user?.photoURL ?? '',
+    );
+  }
 }

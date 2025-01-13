@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:hakawati/core/services/firebase_auth_service.dart';
+import 'package:hakawati/core/services/service_locator.dart';
 import 'package:hakawati/features/auth/data/models/user.dart';
 //import 'package:hakawati/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -50,6 +52,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
   }
 
   void logout() async {
+    await sl.get<FirebaseAuthService>().signOut();
     clear();
     emit(const AuthState.unauthenticated());
   }

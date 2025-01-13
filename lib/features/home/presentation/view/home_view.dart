@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hakawati/config/locale/locale.dart';
-import 'package:hakawati/core/utils/extensions/navigator.dart';
+import 'package:hakawati/core/extensions/navigator.dart';
 import 'package:hakawati/core/widgets/gradient_scaffold.dart';
 import 'package:hakawati/features/personalize/presentation/view/personalize_view.dart';
 import 'package:hakawati/features/profile/presentation/view/liked_content_view.dart';
