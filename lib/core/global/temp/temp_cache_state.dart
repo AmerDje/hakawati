@@ -1,19 +1,19 @@
-part of 'global_bloc.dart';
+part of 'temp_cache_cubit.dart';
 
-class GlobalState extends Equatable {
-  const GlobalState({
+class TempCacheState extends Equatable {
+  const TempCacheState({
     this.stores = const {},
   });
 
   final Map<String, Equatable> stores;
 
-  GlobalState copyWith({
+  TempCacheState copyWith({
     required String key,
     required Equatable store,
   }) {
     Map<String, Equatable> stores = Map<String, Equatable>.of(this.stores);
     stores[key] = store;
-    return GlobalState(
+    return TempCacheState(
       stores: stores,
     );
   }
