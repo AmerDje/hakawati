@@ -8,7 +8,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import 'package:hakawati/core/errors/exception.dart';
+import 'package:hakawati/core/errors/firebase_custom_exception.dart';
 import 'package:hakawati/core/functions/logger.dart';
 import 'package:hakawati/core/services/service_locator.dart';
 
@@ -24,10 +24,10 @@ class FirebaseAuthService {
       return credential.user!;
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
-      throw CustomException.handleAuthError(e);
+      throw FirebaseCustomException.handleAuthError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: "unknown-error");
+      throw FirebaseCustomException(message: "unknown-error");
     }
   }
 
@@ -37,10 +37,10 @@ class FirebaseAuthService {
       return credential.user!;
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
-      throw CustomException.handleAuthError(e);
+      throw FirebaseCustomException.handleAuthError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: "unknown-error");
+      throw FirebaseCustomException(message: "unknown-error");
     }
   }
 
@@ -162,10 +162,10 @@ class FirebaseAuthService {
       return credential.user!;
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
-      throw CustomException.handleAuthError(e);
+      throw FirebaseCustomException.handleAuthError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: "unknown-error");
+      throw FirebaseCustomException(message: "unknown-error");
     }
   }
 
@@ -174,10 +174,10 @@ class FirebaseAuthService {
       await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
-      throw CustomException.handleAuthError(e);
+      throw FirebaseCustomException.handleAuthError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: "unknown-error");
+      throw FirebaseCustomException(message: "unknown-error");
     }
   }
 
@@ -186,10 +186,10 @@ class FirebaseAuthService {
       await _firebaseAuth.currentUser!.delete();
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
-      throw CustomException.handleAuthError(e);
+      throw FirebaseCustomException.handleAuthError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: "unknown-error");
+      throw FirebaseCustomException(message: "unknown-error");
     }
   }
 
@@ -198,10 +198,10 @@ class FirebaseAuthService {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
-      throw CustomException.handleAuthError(e);
+      throw FirebaseCustomException.handleAuthError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: "unknown-error");
+      throw FirebaseCustomException(message: "unknown-error");
     }
   }
 
@@ -217,10 +217,10 @@ class FirebaseAuthService {
       }
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
-      throw CustomException.handleAuthError(e);
+      throw FirebaseCustomException.handleAuthError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: "unknown-error");
+      throw FirebaseCustomException(message: "unknown-error");
     }
   }
 
@@ -230,10 +230,10 @@ class FirebaseAuthService {
       await user.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
-      throw CustomException.handleAuthError(e);
+      throw FirebaseCustomException.handleAuthError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: "unknown-error");
+      throw FirebaseCustomException(message: "unknown-error");
     }
   }
 
@@ -242,10 +242,10 @@ class FirebaseAuthService {
       await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
-      throw CustomException.handleAuthError(e);
+      throw FirebaseCustomException.handleAuthError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: "unknown-error");
+      throw FirebaseCustomException(message: "unknown-error");
     }
   }
 }

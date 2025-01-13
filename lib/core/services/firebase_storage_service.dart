@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:hakawati/core/errors/exception.dart';
+import 'package:hakawati/core/errors/firebase_custom_exception.dart';
 import 'package:hakawati/core/functions/logger.dart';
 import 'package:hakawati/core/services/service_locator.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,10 +17,10 @@ class FirebaseStorageService {
       return downloadUrl;
     } on FirebaseException catch (e) {
       avoidLog(e);
-      throw CustomException.handleStorageError(e);
+      throw FirebaseCustomException.handleStorageError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: "unknown-error");
+      throw FirebaseCustomException(message: "unknown-error");
     }
   }
 
@@ -33,10 +33,10 @@ class FirebaseStorageService {
       return downloadToFile.path;
     } on FirebaseException catch (e) {
       avoidLog(e);
-      throw CustomException.handleStorageError(e);
+      throw FirebaseCustomException.handleStorageError(e);
     } catch (e) {
       avoidLog(e);
-      throw CustomException(message: "unknown-error");
+      throw FirebaseCustomException(message: "unknown-error");
     }
   }
 }
