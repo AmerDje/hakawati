@@ -70,6 +70,7 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ListTile(
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                             title: Text(
                               translate(supportedLocaleItem),
@@ -82,7 +83,6 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
                                 : const SizedBox(),
                             minLeadingWidth: 20,
                             horizontalTitleGap: 0,
-                            contentPadding: EdgeInsets.zero,
                             onTap: () => setState(() {
                               selectedLocal = supportedLocaleItem;
                               // if (_option.isNotEmpty) {
@@ -93,7 +93,7 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
                             }),
                           ),
                           if (index != supportedLocales.length - 1)
-                            const Divider(height: 1, thickness: 1, color: Colors.grey, indent: 30, endIndent: 30),
+                            const Divider(height: 1, thickness: 1, color: Colors.grey, indent: 10, endIndent: 10),
                         ],
                       );
                     },
