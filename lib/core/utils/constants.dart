@@ -13,6 +13,9 @@ abstract class Constants {
   static const kDefaultLocale = 'en';
   static const kSupportedLanguages = ['en', 'ar', 'fr'];
 
+  static const kUserKey = 'user_key';
+  static const kPhotoUrl =
+      'https://img.freepik.com/premium-vector/bearded-smiling-man-with-arms-crossed_165429-132.jpg?w=740';
   static const Map<String, String> kLanguages = {
     'en': 'English',
     'ar': 'Arabic',
