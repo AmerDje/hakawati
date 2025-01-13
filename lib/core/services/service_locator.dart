@@ -4,13 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart' show WidgetsBinding;
 import 'package:get_it/get_it.dart';
+import 'package:hakawati/core/functions/logger.dart';
 import 'package:hakawati/core/global/temp/temp_cache_cubit.dart';
 import 'package:hakawati/core/services/dio_consumer.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:hakawati/core/services/connectivity_checker.dart';
 import 'package:hakawati/core/services/firebase_auth_service.dart';
 import 'package:hakawati/core/services/firebase_firestore_service.dart';
 import 'package:hakawati/core/services/firebase_storage_service.dart';
+import 'package:hakawati/core/utils/constants.dart';
 import 'package:hakawati/features/auth/data/repository/auth_repository.dart';
 import 'package:hakawati/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
@@ -22,9 +22,25 @@ final sl = GetIt.instance;
 class ServicesLocator {
   static void init() {
     //Dio sl
-    sl.registerLazySingleton<DioConsumer>(() => DioConsumer(sl.get<Dio>(), sl.get<ConnectivityCheckerImpl>()));
-    sl.registerLazySingleton<ConnectivityCheckerImpl>(() => ConnectivityCheckerImpl(connectivity: Connectivity()));
-    sl.registerLazySingleton<Dio>(() => Dio());
+    sl.registerLazySingleton<DioConsumer>(() => DioConsumer(sl.get<Dio>()));
+    sl.registerLazySingleton<Dio>(
+      () => Dio(
+        BaseOptions(
+          baseUrl: Constants.kBaseUrl,
+          headers: {'Content-Type': 'application/json; charset=utf-8'},
+          connectTimeout: const Duration(milliseconds: 60000),
+          receiveTimeout: const Duration(milliseconds: 60000),
+        ),
+      )..interceptors.add(LogInterceptor(
+          error: false,
+          logPrint: (error) => avoidPrint(error),
+          request: false,
+          requestBody: true,
+          requestHeader: true,
+          responseHeader: false,
+          responseBody: true,
+        )),
+    );
 
     // Auth sl
     // Firebase sl

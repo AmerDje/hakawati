@@ -1,124 +1,143 @@
-import 'dart:convert' show jsonDecode;
-import 'dart:ffi' show Void;
-import 'dart:math' show min;
-
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:hakawati/core/services/connectivity_checker.dart';
-import 'package:hakawati/core/services/status_code.dart';
-import 'package:hakawati/core/errors/failure.dart';
-import 'package:hakawati/core/utils/constants.dart';
-import 'package:hakawati/core/utils/strings.dart';
+import 'package:hakawati/core/errors/dio_errors_handler.dart';
+import 'package:hakawati/core/functions/logger.dart';
+import 'package:hakawati/core/services/base_consumer.dart';
 
-abstract class ApiConsumer {
-  Future<Either<Failure, T?>> makeRequest<T>(
-    String endPoint, {
-    String method = 'GET',
-    bool formDataIsEnabled = false,
-    dynamic data,
-    T Function(dynamic json)? fromJson,
-    Map<String, dynamic>? queryParams,
-  });
-}
+/// Handles HTTP requests using the Dio package.
+/// Implements the [BaseConsumer] interface for GET, POST, PUT, and DELETE requests.
+class DioConsumer implements BaseConsumer {
+  const DioConsumer(this.dio);
 
-class DioConsumer implements ApiConsumer {
-  final Dio _client;
-  final ConnectivityChecker _connectivityChecker;
+  final Dio dio;
 
-  // Constructor
-  DioConsumer(this._client, this._connectivityChecker) {
-    _client.options = clientOptions;
-    if (kDebugMode) {
-      _client.interceptors.add(LogInterceptor(
-        requestBody: true,
-        requestHeader: true,
-        responseBody: true,
-      ));
-    }
+  @override
+  Future<CustomResponse<T>> delete<T>(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Object? data,
+  }) async {
+    return _errorHandlerTryCatch(() async {
+      final response = await dio.delete<T>(
+        path,
+        queryParameters: queryParameters,
+        data: data,
+      );
+
+      return CustomResponse<T>(
+        data: response.data,
+        statusCode: response.statusCode,
+        statusMessage: response.statusMessage,
+      );
+    });
   }
 
-  final Map<String, Object> headers = {
-    'accept': 'application/json',
-    'content-type': 'application/json',
-  };
-  late var clientOptions = BaseOptions(
-    baseUrl: Constants.kBaseUrl,
-    headers: headers,
-    responseType: ResponseType.plain,
-    followRedirects: false,
-    validateStatus: (status) {
-      return status! < StatusCode.internalServerError;
-    },
-  );
-
-  // Method to make network requests
   @override
-  Future<Either<Failure, T?>> makeRequest<T>(
-    String endPoint, {
-    String method = Strings.get,
-    bool formDataIsEnabled = false,
-    dynamic data,
-    T Function(dynamic json)? fromJson,
-    Map<String, dynamic>? queryParams,
+  Future<CustomResponse<T>> get<T>(
+    String path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
   }) async {
-    // Check for internet connection
-    bool isConnected = (await _connectivityChecker.isConnected);
-    if (isConnected == false) {
-      final errorModel = ServerFailure("check_internet_connection");
-      return Left(errorModel);
+    return _errorHandlerTryCatch(() async {
+      final response = await dio.get<T>(
+        path,
+        queryParameters: queryParameters,
+      );
+
+      return CustomResponse<T>(
+        data: response.data,
+        statusCode: response.statusCode,
+        statusMessage: response.statusMessage,
+      );
+    });
+  }
+
+  @override
+  Future<CustomResponse<T>> post<T>(
+    String path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    return _errorHandlerTryCatch(() async {
+      final response = await dio.post<T>(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+      );
+
+      return CustomResponse<T>(
+        data: response.data,
+        statusCode: response.statusCode,
+        statusMessage: response.statusMessage,
+      );
+    });
+  }
+
+  @override
+  Future<CustomResponse<T>> put<T>(
+    String path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    return _errorHandlerTryCatch(() async {
+      final response = await dio.put<T>(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
+
+      return CustomResponse<T>(
+        data: response.data,
+        statusCode: response.statusCode,
+        statusMessage: response.statusMessage,
+      );
+    });
+  }
+
+  /// Utility function to handle errors in asynchronous operations.
+  Future<T> _errorHandlerTryCatch<T>(Future<T> Function() function) async {
+    try {
+      return await function();
+    } catch (e) {
+      avoidLog('Error occurred: $e');
+      throw DioErrorHandler.handle(e);
     }
+  }
+}
+
+
+/*
+// Cubit for managing the request
+class RequestCubit extends Cubit<RequestState> {
+  final DioConsumer dioConsumer;
+
+  RequestCubit(this.dioConsumer) : super(RequestInitial());
+
+  Future<void> fetchData() async {
+    emit(RequestLoading());
 
     try {
-      // Make the request
-      final response = await _client.request(
-        endPoint,
-        queryParameters: queryParams,
-        options: Options(method: method),
-        data: formDataIsEnabled ? FormData.fromMap(data!) : data,
+      final response = await dioConsumer.get<Map<String, dynamic>>(
+        '/api/data', // Example API endpoint
+        queryParameters: {'param': 'value'}, // Example query parameters
       );
 
-      // Handle successful response if needed
-      if (T is! Void && fromJson != null) {
-        if (response.statusCode! >= 200 && response.statusCode! < 300) {
-          final dataJson = _handleResponseAsJson(response);
-          final data = fromJson(dataJson);
-          return Right(data);
-        } else {
-          // Handle error response
-          final errorModel = ServerFailure(
-            response.statusMessage ?? "something_wrong",
-          );
-          return Left(errorModel);
+      // Emit success state with data
+      emit(RequestSuccess(response.data));
+    } catch (e) {
+      if (e is NetworkException) {
+        if (e.type != NetworkExceptionType.connectionTimeout &&
+            e.type != NetworkExceptionType.success &&
+            e.type != NetworkExceptionType.timeOut &&
+            e.type != NetworkExceptionType.receiveTimeout &&
+            e.type != NetworkExceptionType.sendTimeout) {
+          emit(ErrorState(e.errorMessage));
         }
       } else {
-        return const Right(null);
+        emit(ErrorState(e.errorMessage));
       }
-    } on DioException catch (e) {
-      // Handle DioException
-      //   final errorMsg = CustomException.fromDioError(e);
-      final errorModel = ServerFailure(
-        e.message ?? "something_wrong",
-      );
-      return Left(errorModel);
-    } catch (e) {
-      // Handle other exceptions
-      final errorModel = ServerFailure(e.toString().substring(0, min(60, e.toString().length)));
-      return Left(errorModel);
     }
   }
-
-  // Helper method to decode response body as JSON
-  dynamic _handleResponseAsJson(Response<dynamic> response) {
-    final responseJson = jsonDecode(response.data);
-    return responseJson;
-  }
-
-  // Method to update headers
-  Map<String, dynamic>? updateHeader(Map<String, dynamic> data) {
-    final header = {...data, ...headers};
-    _client.options.headers = header;
-
-    return header;
-  }
 }
+*/
