@@ -16,6 +16,12 @@ abstract class Constants {
   static const kUserKey = 'user_key';
   static const kPhotoUrl =
       'https://img.freepik.com/premium-vector/bearded-smiling-man-with-arms-crossed_165429-132.jpg?w=740';
+
+// Constants for error messages
+  static const String kUnknownErrorMessage = 'Unknown error';
+  static const String kNetworkErrorMessage = 'Network Error';
+  static const String kCacheErrorMessage = 'Cache Error';
+
   static const Map<String, String> kLanguages = {
     'en': 'English',
     'ar': 'Arabic',

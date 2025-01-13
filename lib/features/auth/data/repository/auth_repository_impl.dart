@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hakawati/core/errors/exception.dart';
+import 'package:hakawati/core/errors/firebase_custom_exception.dart';
 import 'package:hakawati/core/errors/failure.dart';
 import 'package:hakawati/core/functions/logger.dart';
 import 'package:hakawati/core/services/firebase_auth_service.dart';
@@ -46,12 +46,12 @@ class AuthRepositoryImpl extends AuthRepository {
       await addUserData(user: userEntity, endPoint: Endpoints.users);
 
       return right(userEntity);
-    } on CustomException catch (e) {
+    } on FirebaseCustomException catch (e) {
       await deleteNewUser(user);
-      return left(ServerFailure(e.message));
+      return left(FirebaseFailure(message: e.message));
     } catch (e) {
       await deleteNewUser(user);
-      return left(ServerFailure('Failed to Signup, Please try again'));
+      return left(FirebaseFailure(message: 'Failed to Signup, Please try again'));
     }
   }
 
@@ -74,10 +74,10 @@ class AuthRepositoryImpl extends AuthRepository {
       await firebaseAuthService.deleteCurrentUser();
 
       return right(true);
-    } on CustomException catch (e) {
-      return left(ServerFailure(e.message));
+    } on FirebaseCustomException catch (e) {
+      return left(FirebaseFailure(message: e.message));
     } catch (e) {
-      return left(ServerFailure('Failed to Login, Please try again'));
+      return left(FirebaseFailure(message: 'Failed to Login, Please try again'));
     }
   }
 
@@ -96,10 +96,10 @@ class AuthRepositoryImpl extends AuthRepository {
 
       // await saveUserData(user: userEntity);
       return right(userEntity);
-    } on CustomException catch (e) {
-      return left(ServerFailure(e.message));
+    } on FirebaseCustomException catch (e) {
+      return left(FirebaseFailure(message: e.message));
     } catch (e) {
-      return left(ServerFailure('Failed to Login, Please try again'));
+      return left(FirebaseFailure(message: 'Failed to Login, Please try again'));
     }
   }
 
@@ -123,8 +123,8 @@ class AuthRepositoryImpl extends AuthRepository {
         'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
       );
       return left(
-        ServerFailure(
-          'حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
+        FirebaseFailure(
+          message: 'حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
         ),
       );
     }
@@ -144,8 +144,8 @@ class AuthRepositoryImpl extends AuthRepository {
         'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
       );
       return left(
-        ServerFailure(
-          'حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
+        FirebaseFailure(
+          message: 'حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
         ),
       );
     }
@@ -166,47 +166,47 @@ class AuthRepositoryImpl extends AuthRepository {
         'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
       );
       return left(
-        ServerFailure(
-          'حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
+        FirebaseFailure(
+          message: 'حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
         ),
       );
     }
   }
 
   @override
-  Future<Either<ServerFailure, bool>> reloadUserStatus() async {
+  Future<Either<FirebaseFailure, bool>> reloadUserStatus() async {
     try {
       final bool isUserVerified = await firebaseAuthService.reloadUser();
       return right(isUserVerified);
-    } on CustomException catch (e) {
-      return left(ServerFailure(e.message));
+    } on FirebaseCustomException catch (e) {
+      return left(FirebaseFailure(message: e.message));
     } catch (e) {
-      return left(ServerFailure('Failed to Login, Please try again'));
+      return left(FirebaseFailure(message: 'Failed to Login, Please try again'));
     }
   }
 
   @override
-  Future<Either<ServerFailure, bool>> sendEmailVerification() async {
+  Future<Either<FirebaseFailure, bool>> sendEmailVerification() async {
     try {
       await firebaseAuthService.verifyEmail();
       return right(true);
-    } on CustomException catch (e) {
-      return left(ServerFailure(e.message));
+    } on FirebaseCustomException catch (e) {
+      return left(FirebaseFailure(message: e.message));
     } catch (e) {
-      return left(ServerFailure('Failed to Login, Please try again'));
+      return left(FirebaseFailure(message: 'Failed to Login, Please try again'));
     }
   }
 
 // logout
   @override
-  Future<Either<ServerFailure, void>> logout() async {
+  Future<Either<FirebaseFailure, void>> logout() async {
     try {
       await firebaseAuthService.signOut();
       return right(null);
-    } on CustomException catch (e) {
-      return left(ServerFailure(e.message));
+    } on FirebaseCustomException catch (e) {
+      return left(FirebaseFailure(message: e.message));
     } catch (e) {
-      return left(ServerFailure('Failed to Login, Please try again'));
+      return left(FirebaseFailure(message: 'Failed to Login, Please try again'));
     }
   }
 
@@ -256,10 +256,10 @@ class AuthRepositoryImpl extends AuthRepository {
         image,
       );
       return right(downloadUrl);
-    } on CustomException catch (e) {
-      return left(ServerFailure(e.message));
+    } on FirebaseCustomException catch (e) {
+      return left(FirebaseFailure(message: e.message));
     } catch (e) {
-      return left(ServerFailure('Failed to Upload, Please try again'));
+      return left(FirebaseFailure(message: 'Failed to Upload, Please try again'));
     }
   }
 
