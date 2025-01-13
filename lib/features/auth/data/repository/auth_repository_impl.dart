@@ -250,6 +250,7 @@ class AuthRepositoryImpl extends AuthRepository {
     }
   }
 
+  @override
   Future<Either<Failure, String>> uploadImage(File image) async {
     try {
       String downloadUrl = await firebaseStorageService.uploadFile(

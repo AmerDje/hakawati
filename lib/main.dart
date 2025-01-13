@@ -23,9 +23,9 @@ import 'features/settings/presentation/views/localization/localization.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ServicesLocator.init();
   await Firebase.initializeApp();
   await Prefs.init();
+  ServicesLocator.init();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
@@ -38,16 +38,7 @@ void main() async {
       SettingsCubit,
     ],
   );
-  // FirebaseAuth.instance.authStateChanges().listen((User? user) {
-  //   if (user == null) {
-  //     //apply logout logic
-  //     print('User is currently signed out!');
-  //   } else {
-  //     user.getIdToken();
-  //     //update token logic
-  //     print('User is signed in!');
-  //   }
-  // });
+
   runApp(
     MultiBlocProvider(
       providers: [
