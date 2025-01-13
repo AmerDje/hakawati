@@ -10,14 +10,16 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'package:hakawati/core/errors/firebase_custom_exception.dart';
 import 'package:hakawati/core/functions/logger.dart';
-import 'package:hakawati/core/services/service_locator.dart';
 
 class FirebaseAuthService {
-  final FirebaseAuth _firebaseAuth = sl.get<FirebaseAuth>();
+  final FirebaseAuth firebaseAuth;
+  FirebaseAuthService({
+    required this.firebaseAuth,
+  });
 
   Future<User> createUserWithEmailAndPassword({required String email, required String password}) async {
     try {
-      final credential = await _firebaseAuth.createUserWithEmailAndPassword(
+      final credential = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -33,7 +35,7 @@ class FirebaseAuthService {
 
   Future<User> signInWithEmailAndPassword({required String email, required String password}) async {
     try {
-      final credential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      final credential = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       return credential.user!;
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
@@ -54,7 +56,7 @@ class FirebaseAuthService {
       idToken: googleAuth?.idToken,
     );
 
-    return (await _firebaseAuth.signInWithCredential(credential)).user!;
+    return (await firebaseAuth.signInWithCredential(credential)).user!;
   }
 
   Future<User?> signInWithFacebook() async {
@@ -97,7 +99,7 @@ class FirebaseAuthService {
         }
 
         // Sign in to Firebase with the credential
-        UserCredential userCredential = await _firebaseAuth.signInWithCredential(facebookAuthCredential);
+        UserCredential userCredential = await firebaseAuth.signInWithCredential(facebookAuthCredential);
 
         return userCredential.user;
       } else if (loginResult.status == LoginStatus.cancelled) {
@@ -149,16 +151,16 @@ class FirebaseAuthService {
       rawNonce: rawNonce,
     );
 
-    return (await _firebaseAuth.signInWithCredential(oauthCredential)).user!;
+    return (await firebaseAuth.signInWithCredential(oauthCredential)).user!;
   }
 
   bool isLoggedIn() {
-    return _firebaseAuth.currentUser != null;
+    return firebaseAuth.currentUser != null;
   }
 
   Future<User> signInAnonymously() async {
     try {
-      final credential = await _firebaseAuth.signInAnonymously();
+      final credential = await firebaseAuth.signInAnonymously();
       return credential.user!;
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
@@ -171,7 +173,7 @@ class FirebaseAuthService {
 
   Future<void> signOut() async {
     try {
-      await _firebaseAuth.signOut();
+      await firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
       throw FirebaseCustomException.handleAuthError(e);
@@ -183,7 +185,7 @@ class FirebaseAuthService {
 
   Future<void> deleteCurrentUser() async {
     try {
-      await _firebaseAuth.currentUser!.delete();
+      await firebaseAuth.currentUser!.delete();
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
       throw FirebaseCustomException.handleAuthError(e);
@@ -195,7 +197,7 @@ class FirebaseAuthService {
 
   Future<void> sendPasswordResetEmail(String email) async {
     try {
-      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      await firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
       throw FirebaseCustomException.handleAuthError(e);
@@ -207,7 +209,7 @@ class FirebaseAuthService {
 
   Future<bool> reloadUser() async {
     try {
-      final user = _firebaseAuth.currentUser;
+      final user = firebaseAuth.currentUser;
       await user?.reload();
 
       if (user?.emailVerified ?? false) {
@@ -226,7 +228,7 @@ class FirebaseAuthService {
 
   Future<void> verifyEmail() async {
     try {
-      final user = _firebaseAuth.currentUser!;
+      final user = firebaseAuth.currentUser!;
       await user.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
@@ -239,7 +241,7 @@ class FirebaseAuthService {
 
   Future<void> logout() async {
     try {
-      await _firebaseAuth.signOut();
+      await firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
       throw FirebaseCustomException.handleAuthError(e);

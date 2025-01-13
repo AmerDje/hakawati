@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hakawati/core/services/service_locator.dart';
 import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/core/widgets/widgets.dart';
-import 'package:hakawati/features/auth/data/repository/auth_repository_impl.dart';
+import 'package:hakawati/features/auth/data/repository/auth_repository.dart';
 import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:hakawati/features/auth/presentation/views/login/view/login_view.dart';
 import 'package:hakawati/features/profile/presentation/view/widgets/profile_list_tile.dart';
@@ -78,7 +78,7 @@ class SettingsViewBody extends StatelessWidget {
                                     MaterialPageRoute(builder: (context) => const LoginView()),
                                     (Route<dynamic> route) => false);
                                 try {
-                                  sl.get<AuthRepositoryImpl>().logout();
+                                  sl.get<AuthRepository>().logout();
                                 } catch (_) {}
                               },
                               btnText: 'Sign Out',

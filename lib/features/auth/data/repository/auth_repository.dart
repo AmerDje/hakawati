@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:hakawati/core/errors/failure.dart';
 import 'package:hakawati/features/auth/data/models/user.dart';
@@ -35,4 +37,5 @@ abstract class AuthRepository {
   Future<Either<Failure, bool>> sendEmailVerification();
   Future<Either<Failure, bool>> reloadUserStatus();
   Future logout();
+  Future<Either<Failure, String>> uploadImage(File image);
 }

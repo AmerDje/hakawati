@@ -22,7 +22,6 @@ final sl = GetIt.instance;
 class ServicesLocator {
   static void init() {
     //Dio sl
-    sl.registerLazySingleton<DioConsumer>(() => DioConsumer(sl.get<Dio>()));
     sl.registerLazySingleton<Dio>(
       () => Dio(
         BaseOptions(
@@ -42,6 +41,7 @@ class ServicesLocator {
         )),
     );
 
+    sl.registerLazySingleton<DioConsumer>(() => DioConsumer(sl.get<Dio>()));
     // Auth sl
     // Firebase sl
     sl.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
@@ -49,9 +49,15 @@ class ServicesLocator {
     sl.registerLazySingleton<FirebaseStorage>(() => FirebaseStorage.instance);
 
     // Service sl
-    sl.registerLazySingleton<FirebaseFireStoreService>(() => FirebaseFireStoreService());
-    sl.registerLazySingleton<FirebaseAuthService>(() => FirebaseAuthService());
-    sl.registerLazySingleton<FirebaseStorageService>(() => FirebaseStorageService());
+    sl.registerLazySingleton<FirebaseFireStoreService>(() => FirebaseFireStoreService(
+          firestore: sl.get<FirebaseFirestore>(),
+        ));
+    sl.registerLazySingleton<FirebaseAuthService>(() => FirebaseAuthService(
+          firebaseAuth: sl.get<FirebaseAuth>(),
+        ));
+    sl.registerLazySingleton<FirebaseStorageService>(() => FirebaseStorageService(
+          firebaseStorage: sl.get<FirebaseStorage>(),
+        ));
 
     // Repository sl
     // Auth Repo sl
@@ -62,10 +68,10 @@ class ServicesLocator {
         ));
 
     // Cubit sl
-    sl.registerFactory<RegisterCubit>(() => RegisterCubit(sl.get<AuthRepositoryImpl>()));
+    sl.registerFactory<RegisterCubit>(() => RegisterCubit(sl.get<AuthRepository>()));
     sl.registerFactory<TempCacheCubit>(() => TempCacheCubit());
     sl.registerFactory<SettingsCubit>(
         () => SettingsCubit(platformBrightness: WidgetsBinding.instance.platformDispatcher.platformBrightness));
-    sl.registerFactory<AuthCubit>(() => AuthCubit()); //authRepositoryImpl: sl.get<AuthRepositoryImpl>()));
+    sl.registerFactory<AuthCubit>(() => AuthCubit());
   }
 }
