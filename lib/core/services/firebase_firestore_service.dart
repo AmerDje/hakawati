@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hakawati/core/errors/firebase_custom_exception.dart';
 import 'package:hakawati/core/functions/logger.dart';
-import 'package:hakawati/core/services/service_locator.dart';
 
 class FirebaseFireStoreService {
-  FirebaseFirestore firestore = sl.get<FirebaseFirestore>();
+  final FirebaseFirestore firestore;
+  FirebaseFireStoreService({
+    required this.firestore,
+  });
 
   Future<void> addData({required String path, required Map<String, dynamic> data, String? documentId}) async {
     try {
