@@ -40,8 +40,10 @@ class ProfileHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Hi, ${user.name}",
-                      style: Styles.fontStyle26(context).copyWith(color: Theme.of(context).secondaryHeaderColor)),
+                  Text(
+                    "Hi, ${user.name!.split(' ')[0]}",
+                    style: Styles.fontStyle26(context).copyWith(color: Theme.of(context).secondaryHeaderColor),
+                  ),
                   const Row(
                     children: [
                       StatisticsTexts(),
