@@ -146,20 +146,22 @@ class _RegisterViewFormState extends State<RegisterViewForm> {
                     height: 15,
                   ),
                   BlocConsumer<RegisterCubit, RegisterState>(
-                    listener: (context, state) {
+                    listener: (context, state) async {
                       if (state is RegisterSuccess) {
                         context.read<AuthCubit>().updateAuthStatus({
-                          "user": state.user.toJson(),
-                          "token": state.user.uid.toString(),
+                          "user": state.user!.toJson(),
+                          "token": state.user!.uid.toString(),
                         });
-                        context.read<RegisterCubit>().sendEmailVerification();
-                      } else if (state is RegisterFailure) {
-                        showSnackBar(context, state.errMessage, isError: true);
+                        await context.read<RegisterCubit>().sendEmailVerification();
                       } else if (state is SignInWithFacebookSuccess || state is SignInWithGoogleSuccess) {
                         context.read<AuthCubit>().updateAuthStatus({
                           "user": state.user!.toJson(),
                           "token": state.user!.uid.toString(),
                         });
+                      } else if (state is RegisterFailure ||
+                          state is SignInWithFacebookFailure ||
+                          state is SignInWithGoogleFailure) {
+                        showSnackBar(context, state.errMessage!, isError: true);
                       }
                     },
                     builder: (context, state) {

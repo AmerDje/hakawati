@@ -37,7 +37,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     final result = await authRepository.updateUserData(user: user, endPoint: Endpoints.users);
     result.fold(
       (failure) => emit(UpdateUserFailure(errMessage: failure.message)),
-      (user) => emit(UpdateUserSuccess(user: user)),
+      (success) => emit(const UpdateUserSuccess()),
     );
   }
 

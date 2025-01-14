@@ -1,11 +1,12 @@
 part of 'register_cubit.dart';
 
 sealed class RegisterState extends Equatable {
-  const RegisterState({this.user});
   final UserModel? user;
+  final String? errMessage;
+  const RegisterState({this.user, this.errMessage});
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [user, errMessage];
 }
 
 final class RegisterInitial extends RegisterState {}
@@ -13,15 +14,11 @@ final class RegisterInitial extends RegisterState {}
 final class RegisterLoading extends RegisterState {}
 
 final class RegisterSuccess extends RegisterState {
-  @override
-  final UserModel user;
-  const RegisterSuccess({required this.user});
+  const RegisterSuccess({required super.user});
 }
 
 final class RegisterFailure extends RegisterState {
-  final String errMessage;
-
-  const RegisterFailure({required this.errMessage});
+  const RegisterFailure({required super.errMessage});
 }
 
 final class VerificationLoading extends RegisterState {}
@@ -31,9 +28,7 @@ final class VerificationSuccess extends RegisterState {}
 final class VerificationEmailSent extends RegisterState {}
 
 final class VerificationFailure extends RegisterState {
-  final String errMessage;
-
-  const VerificationFailure({required this.errMessage});
+  const VerificationFailure({required super.errMessage});
 }
 
 final class DeleteUserLoading extends RegisterState {}
@@ -41,23 +36,17 @@ final class DeleteUserLoading extends RegisterState {}
 final class DeleteUserSuccess extends RegisterState {}
 
 final class DeleteUserFailure extends RegisterState {
-  final String errMessage;
-
-  const DeleteUserFailure({required this.errMessage});
+  const DeleteUserFailure({required super.errMessage});
 }
 
 final class UpdateUserLoading extends RegisterState {}
 
 final class UpdateUserSuccess extends RegisterState {
-  @override
-  final UserModel user;
-  const UpdateUserSuccess({required this.user});
+  const UpdateUserSuccess();
 }
 
 final class UpdateUserFailure extends RegisterState {
-  final String errMessage;
-
-  const UpdateUserFailure({required this.errMessage});
+  const UpdateUserFailure({required super.errMessage});
 }
 
 final class SignInWithGoogleLoading extends RegisterState {}
@@ -68,9 +57,7 @@ final class SignInWithGoogleSuccess extends RegisterState {
 }
 
 final class SignInWithGoogleFailure extends RegisterState {
-  final String errMessage;
-
-  const SignInWithGoogleFailure({required this.errMessage});
+  const SignInWithGoogleFailure({required super.errMessage});
 }
 
 final class SignInWithFacebookLoading extends RegisterState {}
@@ -81,7 +68,5 @@ final class SignInWithFacebookSuccess extends RegisterState {
 }
 
 final class SignInWithFacebookFailure extends RegisterState {
-  final String errMessage;
-
-  const SignInWithFacebookFailure({required this.errMessage});
+  const SignInWithFacebookFailure({required super.errMessage});
 }
