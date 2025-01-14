@@ -40,53 +40,7 @@ class FirebaseFireStoreService {
           // Handle 'user_id' field
           if (query['user_id'] != null && query['user_id'] is String) {
             var userId = query['user_id'] as String;
-            data = data.where('employee.uId', isEqualTo: userId);
-          }
-
-          // Handle 'user_id' field
-          if (query['manager_id'] != null && query['manager_id'] is String) {
-            var managerId = query['manager_id'] as String;
-            data = data.where('manager.uId', isEqualTo: managerId);
-          }
-          // Handle 'department' field
-          if (query['department'] != null && query['department'] is String) {
-            var department = query['department'] as String;
-            data = data.where('employee.department', isEqualTo: department);
-          }
-          // Handle 'manager_department' field
-          if (query['manager_department'] != null && query['manager_department'] is String) {
-            var department = query['manager_department'] as String;
-            data = data.where('department', isEqualTo: department);
-          }
-          // Handle 'recent' field
-          if (query['recent'] != null && query['recent'] is bool) {
-            bool isRecent = query['recent'];
-            if (isRecent) {
-              data = data.where(
-                'updated_at',
-                isGreaterThanOrEqualTo: Timestamp.fromDate(
-                  DateTime.now().subtract(
-                    const Duration(days: 3),
-                  ),
-                ),
-                isLessThanOrEqualTo: Timestamp.fromDate(DateTime.now()),
-              );
-            } else {
-              data = data.where(
-                'updated_at',
-                isLessThanOrEqualTo: Timestamp.fromDate(
-                  DateTime.now().subtract(
-                    const Duration(days: 3),
-                  ),
-                ),
-              );
-            }
-          }
-
-          // Handle 'orderBy' field
-          if (query['recipient_id'] != null && query['recipient_id'] is String) {
-            var recipientId = query['recipient_id'] as String;
-            data = data.where('recipient_id', isEqualTo: recipientId);
+            data = data.where('user_id', isEqualTo: userId);
           }
 
           // Handle 'orderBy' field
