@@ -20,7 +20,7 @@ abstract class AuthRepository {
   Future<Either<Failure, UserModel>> signinWithGoogle();
   Future<Either<Failure, UserModel>> signinWithFacebook();
   Future<Either<Failure, bool>> deleteUser();
-  Future updateUserData({
+  Future<Either<Failure, bool>> updateUserData({
     required UserModel user,
     required String endPoint,
   });
