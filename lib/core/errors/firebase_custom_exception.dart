@@ -9,13 +9,13 @@ class FirebaseCustomException implements Exception {
   factory FirebaseCustomException.handleAuthError(FirebaseAuthException e) {
     switch (e.code) {
       case 'user-not-found':
-        return FirebaseCustomException(message: 'No user found for that badge number.');
+        return FirebaseCustomException(message: 'No user found for that email.');
       case 'wrong-password':
         return FirebaseCustomException(message: 'Wrong password provided for that user.');
       case 'email-already-in-use':
-        return FirebaseCustomException(message: 'The badge number is already in use.');
+        return FirebaseCustomException(message: 'The email is already in use.');
       case 'invalid-email':
-        return FirebaseCustomException(message: 'The badge number is invalid.');
+        return FirebaseCustomException(message: 'The email is invalid.');
       default:
         return FirebaseCustomException(message: 'Authentication error: ${e.message}');
     }

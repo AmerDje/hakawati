@@ -91,11 +91,15 @@ class AuthRepositoryImpl extends AuthRepository {
       late UserModel userEntity;
 
       // Fetch user data
-
+      avoidLog('User: ${user.uid}');
       userEntity = await getUserData(uid: user.uid, endPoint: Endpoints.users);
-
+      avoidLog('UserEntity: ${userEntity.toJson()}');
       // await saveUserData(user: userEntity);
-      return right(userEntity);
+      if (userEntity.uid?.isNotEmpty ?? false) {
+        return right(userEntity);
+      } else {
+        return left(FirebaseFailure(message: 'Failed to Login, Please try again'));
+      }
     } on FirebaseCustomException catch (e) {
       return left(FirebaseFailure(message: e.message));
     } catch (e) {
@@ -117,16 +121,12 @@ class AuthRepositoryImpl extends AuthRepository {
         await addUserData(user: userEntity, endPoint: Endpoints.users);
       }
       return right(userEntity);
+    } on FirebaseCustomException catch (e) {
+      await deleteNewUser(user);
+      return left(FirebaseFailure(message: e.message));
     } catch (e) {
       await deleteNewUser(user);
-      avoidPrint(
-        'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
-      );
-      return left(
-        FirebaseFailure(
-          message: 'حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
-        ),
-      );
+      return left(FirebaseFailure(message: 'Failed to Login, Please try again'));
     }
   }
 
@@ -138,16 +138,12 @@ class AuthRepositoryImpl extends AuthRepository {
       var userEntity = UserModel.fromFirebaseUser(user);
       await addUserData(user: userEntity, endPoint: Endpoints.users);
       return right(userEntity);
+    } on FirebaseCustomException catch (e) {
+      await deleteNewUser(user);
+      return left(FirebaseFailure(message: e.message));
     } catch (e) {
       await deleteNewUser(user);
-      avoidPrint(
-        'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
-      );
-      return left(
-        FirebaseFailure(
-          message: 'حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
-        ),
-      );
+      return left(FirebaseFailure(message: 'Failed to Login, Please try again'));
     }
   }
 
@@ -160,16 +156,12 @@ class AuthRepositoryImpl extends AuthRepository {
       var userEntity = UserModel.fromFirebaseUser(user);
       await addUserData(user: userEntity, endPoint: Endpoints.users);
       return right(userEntity);
+    } on FirebaseCustomException catch (e) {
+      await deleteNewUser(user);
+      return left(FirebaseFailure(message: e.message));
     } catch (e) {
       await deleteNewUser(user);
-      avoidPrint(
-        'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
-      );
-      return left(
-        FirebaseFailure(
-          message: 'حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
-        ),
-      );
+      return left(FirebaseFailure(message: 'Failed to Login, Please try again'));
     }
   }
 
@@ -226,6 +218,7 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<UserModel> getUserData({required String uid, required String endPoint}) async {
     try {
+      avoidLog('UID: fetching user data: $uid');
       var userData = await fireStoreService.getData(
         path: endPoint,
         documentId: uid,
