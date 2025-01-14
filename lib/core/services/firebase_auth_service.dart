@@ -46,17 +46,23 @@ class FirebaseAuthService {
     }
   }
 
-  Future<User> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  Future<User?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-    return (await firebaseAuth.signInWithCredential(credential)).user!;
+      final user = (await firebaseAuth.signInWithCredential(credential)).user;
+      return user!;
+    } catch (e) {
+      avoidLog('An error occurred while signing in with Google: $e');
+    }
+    return null;
   }
 
   Future<User?> signInWithFacebook() async {
@@ -150,8 +156,8 @@ class FirebaseAuthService {
       idToken: appleCredential.identityToken,
       rawNonce: rawNonce,
     );
-
-    return (await firebaseAuth.signInWithCredential(oauthCredential)).user!;
+    final user = (await firebaseAuth.signInWithCredential(oauthCredential)).user!;
+    return user;
   }
 
   bool isLoggedIn() {
