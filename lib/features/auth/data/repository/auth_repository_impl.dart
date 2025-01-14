@@ -40,12 +40,18 @@ class AuthRepositoryImpl extends AuthRepository {
         email: email,
         photoUrl: photoUrl,
         phoneNumber: phoneNumber,
+        locate: locate,
+        password: password,
         emailVerified: user.emailVerified,
       );
-
+      avoidLog('UserEntity: ${userEntity.toJson()}');
       await addUserData(user: userEntity, endPoint: Endpoints.users);
 
+      if (userEntity.uid?.isNotEmpty ?? false) {
       return right(userEntity);
+      } else {
+        return left(FirebaseFailure(message: 'Failed to Signup, Please try again'));
+      }
     } on FirebaseCustomException catch (e) {
       await deleteNewUser(user);
       return left(FirebaseFailure(message: e.message));
@@ -231,15 +237,20 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future updateUserData({required UserModel user, required String endPoint}) async {
+  Future<Either<Failure, bool>> updateUserData({required UserModel user, required String endPoint}) async {
     try {
+      avoidLog('UID: updating user data: ${user.uid}');
       await fireStoreService.updateData(
         path: endPoint,
         data: user.toJson(),
         documentId: user.uid!,
       );
+      return right(true);
+    } on FirebaseCustomException catch (e) {
+      return left(FirebaseFailure(message: e.message));
     } catch (e) {
       avoidPrint('Exception in AuthRepoImpl.updateUserData: ${e.toString()}');
+      return left(FirebaseFailure(message: 'Failed to Update, Please try again'));
     }
   }
 

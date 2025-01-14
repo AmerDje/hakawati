@@ -33,7 +33,7 @@ class _LoginViewFormState extends State<LoginViewForm> {
         key: _formKey,
         autovalidateMode: _autovalidateMode,
         child: SizedBox(
-          height: context.height * .63,
+          height: context.height * .65,
           child: SingleChildScrollView(
             padding: EdgeInsets.only(bottom: context.bottomInsets),
             child: Column(
