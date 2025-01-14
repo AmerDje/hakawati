@@ -48,7 +48,7 @@ class AuthRepositoryImpl extends AuthRepository {
       await addUserData(user: userEntity, endPoint: Endpoints.users);
 
       if (userEntity.uid?.isNotEmpty ?? false) {
-      return right(userEntity);
+        return right(userEntity);
       } else {
         return left(FirebaseFailure(message: 'Failed to Signup, Please try again'));
       }
@@ -120,9 +120,10 @@ class AuthRepositoryImpl extends AuthRepository {
       user = await firebaseAuthService.signInWithGoogle();
 
       var userEntity = UserModel.fromFirebaseUser(user);
-      var isUserExist = await fireStoreService.checkIfDataExists(path: Endpoints.users, documentId: user.uid);
+      var isUserExist = await fireStoreService.checkIfDataExists(path: Endpoints.users, documentId: userEntity.uid!);
+
       if (isUserExist) {
-        await getUserData(uid: user.uid, endPoint: Endpoints.users);
+        userEntity = await getUserData(uid: userEntity.uid!, endPoint: Endpoints.users);
       } else {
         await addUserData(user: userEntity, endPoint: Endpoints.users);
       }
@@ -142,7 +143,12 @@ class AuthRepositoryImpl extends AuthRepository {
     try {
       user = await firebaseAuthService.signInWithFacebook();
       var userEntity = UserModel.fromFirebaseUser(user);
-      await addUserData(user: userEntity, endPoint: Endpoints.users);
+      var isUserExist = await fireStoreService.checkIfDataExists(path: Endpoints.users, documentId: userEntity.uid!);
+      if (isUserExist) {
+        userEntity = await getUserData(uid: userEntity.uid!, endPoint: Endpoints.users);
+      } else {
+        await addUserData(user: userEntity, endPoint: Endpoints.users);
+      }
       return right(userEntity);
     } on FirebaseCustomException catch (e) {
       await deleteNewUser(user);
@@ -160,7 +166,12 @@ class AuthRepositoryImpl extends AuthRepository {
       user = await firebaseAuthService.signInWithApple();
 
       var userEntity = UserModel.fromFirebaseUser(user);
-      await addUserData(user: userEntity, endPoint: Endpoints.users);
+      var isUserExist = await fireStoreService.checkIfDataExists(path: Endpoints.users, documentId: userEntity.uid!);
+      if (isUserExist) {
+        userEntity = await getUserData(uid: userEntity.uid!, endPoint: Endpoints.users);
+      } else {
+        await addUserData(user: userEntity, endPoint: Endpoints.users);
+      }
       return right(userEntity);
     } on FirebaseCustomException catch (e) {
       await deleteNewUser(user);
@@ -211,6 +222,7 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future addUserData({required UserModel user, required String endPoint}) async {
     try {
+      avoidLog('UID: adding user data: ${user.uid}');
       await fireStoreService.addData(
         path: endPoint,
         data: user.toJson(),
