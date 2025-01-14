@@ -2,10 +2,11 @@ part of 'login_cubit.dart';
 
 sealed class LoginState extends Equatable {
   final UserModel? user;
-  const LoginState({this.user});
+  final String? errMessage;
+  const LoginState({this.user, this.errMessage});
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [user, errMessage];
 }
 
 final class LoginInitial extends LoginState {}
@@ -13,16 +14,11 @@ final class LoginInitial extends LoginState {}
 final class LoginLoading extends LoginState {}
 
 final class LoginSuccess extends LoginState {
-  @override
-  final UserModel user;
-
-  const LoginSuccess({required this.user});
+  const LoginSuccess({required super.user});
 }
 
 final class LoginFailure extends LoginState {
-  final String errMessage;
-
-  const LoginFailure({required this.errMessage});
+  const LoginFailure({required super.errMessage});
 }
 
 final class LogoutLoading extends LoginState {}
@@ -30,35 +26,25 @@ final class LogoutLoading extends LoginState {}
 final class LogoutSuccess extends LoginState {}
 
 final class LogoutFailure extends LoginState {
-  final String errMessage;
-
-  const LogoutFailure({required this.errMessage});
+  const LogoutFailure({required super.errMessage});
 }
 
 final class SignInWithGoogleLoading extends LoginState {}
 
 final class SignInWithGoogleSuccess extends LoginState {
-  @override
-  final UserModel user;
-  const SignInWithGoogleSuccess({required this.user});
+  const SignInWithGoogleSuccess({required super.user});
 }
 
 final class SignInWithGoogleFailure extends LoginState {
-  final String errMessage;
-
-  const SignInWithGoogleFailure({required this.errMessage});
+  const SignInWithGoogleFailure({required super.errMessage});
 }
 
 final class SignInWithFacebookLoading extends LoginState {}
 
 final class SignInWithFacebookSuccess extends LoginState {
-  @override
-  final UserModel user;
-  const SignInWithFacebookSuccess({required this.user});
+  const SignInWithFacebookSuccess({required super.user});
 }
 
 final class SignInWithFacebookFailure extends LoginState {
-  final String errMessage;
-
-  const SignInWithFacebookFailure({required this.errMessage});
+  const SignInWithFacebookFailure({required super.errMessage});
 }
