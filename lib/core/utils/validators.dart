@@ -29,9 +29,10 @@ abstract class Validators {
   }
 
   static bool isValidPhone(String? phone) {
-    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    // String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    String pattern = r"^0\d{9}$"; // only for algerian phone numbers starting with 0
     RegExp regExp = RegExp(pattern);
-    return isNotNullOrBlank(phone) && regExp.hasMatch(phone!);
+    return isNotNullOrBlank(phone) && regExp.hasMatch(phone!.replaceAll(' ', ''));
   }
 
   static bool isNullOrBlank(String? text) {

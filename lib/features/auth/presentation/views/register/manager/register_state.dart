@@ -70,3 +70,9 @@ final class SignInWithFacebookSuccess extends RegisterState {
 final class SignInWithFacebookFailure extends RegisterState {
   const SignInWithFacebookFailure({required super.errMessage});
 }
+
+final class TemporaryLoginLoading extends RegisterState {}
+
+final class TemporaryLoginSuccess extends RegisterState {}
+
+final class TemporaryLoginFailure extends RegisterState {}

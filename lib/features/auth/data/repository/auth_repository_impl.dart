@@ -77,8 +77,8 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Either<Failure, bool>> deleteUser() async {
     try {
-      await firebaseAuthService.deleteCurrentUser();
-
+      String uid = await firebaseAuthService.deleteCurrentUser();
+      await deleteUserData(uid: uid, endPoint: Endpoints.users);
       return right(true);
     } on FirebaseCustomException catch (e) {
       return left(FirebaseFailure(message: e.message));
@@ -106,6 +106,21 @@ class AuthRepositoryImpl extends AuthRepository {
       } else {
         return left(FirebaseFailure(message: 'Failed to Login, Please try again'));
       }
+    } on FirebaseCustomException catch (e) {
+      return left(FirebaseFailure(message: e.message));
+    } catch (e) {
+      return left(FirebaseFailure(message: 'Failed to Login, Please try again'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> temporaryLogin(
+    String email,
+    String password,
+  ) async {
+    try {
+      await firebaseAuthService.signInWithEmailAndPassword(email: email, password: password);
+      return right(null);
     } on FirebaseCustomException catch (e) {
       return left(FirebaseFailure(message: e.message));
     } catch (e) {
@@ -208,10 +223,10 @@ class AuthRepositoryImpl extends AuthRepository {
 
 // logout
   @override
-  Future<Either<FirebaseFailure, void>> logout() async {
+  Future<Either<Failure, bool>> logout() async {
     try {
       await firebaseAuthService.signOut();
-      return right(null);
+      return right(true);
     } on FirebaseCustomException catch (e) {
       return left(FirebaseFailure(message: e.message));
     } catch (e) {
@@ -245,6 +260,19 @@ class AuthRepositoryImpl extends AuthRepository {
     } catch (e) {
       avoidPrint('Exception in AuthRepoImpl.getUserData: ${e.toString()}');
       return const UserModel();
+    }
+  }
+
+  @override
+  Future<void> deleteUserData({required String uid, required String endPoint}) async {
+    try {
+      avoidLog('UID: fetching user data: $uid');
+      await fireStoreService.deleteData(
+        path: endPoint,
+        documentId: uid,
+      );
+    } catch (e) {
+      avoidPrint('Exception in AuthRepoImpl.getUserData: ${e.toString()}');
     }
   }
 

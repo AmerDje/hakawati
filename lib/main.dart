@@ -32,11 +32,10 @@ void main() async {
 
   Bloc.observer = AppBlocObserver(
     filteredBlocs: [
-      AuthCubit,
-      RegisterCubit,
       TempCacheCubit,
       SettingsCubit,
     ],
+    isLoggingEnabled: false,
   );
 
   runApp(
@@ -88,15 +87,16 @@ class MainApp extends StatelessWidget {
       return const OnboardingScreen();
     } else if (authState.status == AuthStatus.unauthenticated || authState.status == AuthStatus.unknown) {
       return const LoginView();
-    } else if (authState.status == AuthStatus.authenticated && authState.user.emailVerified == true) {
-      return const BottomNavbarView();
-    } else {
+    } else if (authState.user.emailVerified != true) {
       return BlocProvider(
         create: (context) => sl.get<RegisterCubit>()..sendEmailVerification(),
         child: EmailVerificationScreen(
           email: authState.user.email ?? '',
+          password: authState.user.password ?? '',
         ),
       );
+    } else {
+      return const BottomNavbarView();
     }
   }
 }
