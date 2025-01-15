@@ -38,6 +38,7 @@ class _RegisterViewFormState extends State<RegisterViewForm> {
               value: context.read<RegisterCubit>(),
               child: EmailVerificationScreen(
                 email: email ?? '',
+                password: password ?? '',
               )));
         }
       },
@@ -166,20 +167,22 @@ class _RegisterViewFormState extends State<RegisterViewForm> {
                     },
                     builder: (context, state) {
                       return CustomElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            await context.read<RegisterCubit>().register(
-                                email: email!.trim(),
-                                name: name!.trim(),
-                                phone: phone!.trim(),
-                                password: password!,
-                                locate: context.read<SettingsCubit>().state.locate);
-                          } else {
-                            _autovalidateMode = AutovalidateMode.always;
-                            setState(() {});
-                          }
-                        },
+                        onPressed: isTermAccepted
+                            ? () async {
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
+                                  await context.read<RegisterCubit>().register(
+                                      email: email!.trim(),
+                                      name: name!.trim(),
+                                      phone: phone!.trim(),
+                                      password: password!,
+                                      locate: context.read<SettingsCubit>().state.locate);
+                                } else {
+                                  _autovalidateMode = AutovalidateMode.always;
+                                  setState(() {});
+                                }
+                              }
+                            : null,
                         child: state is RegisterLoading
                             ? const CupertinoActivityIndicator()
                             : Text(

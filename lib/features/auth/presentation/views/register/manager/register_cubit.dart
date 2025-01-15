@@ -69,6 +69,12 @@ class RegisterCubit extends Cubit<RegisterState> {
         (failure) => emit(DeleteUserFailure(errMessage: failure.message)), (success) => emit(DeleteUserSuccess()));
   }
 
+  Future<void> temporaryLogin(String email, String password) async {
+    emit(TemporaryLoginLoading());
+    var result = await authRepository.temporaryLogin(email, password);
+    result.fold((failure) => emit(TemporaryLoginFailure()), (_) => emit(TemporaryLoginSuccess()));
+  }
+
   Future<void> signInWithGoogle() async {
     emit(SignInWithGoogleLoading());
     var result = await authRepository.signinWithGoogle();
