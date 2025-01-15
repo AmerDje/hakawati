@@ -189,9 +189,11 @@ class FirebaseAuthService {
     }
   }
 
-  Future<void> deleteCurrentUser() async {
+  Future<String> deleteCurrentUser() async {
     try {
+      String uid = firebaseAuth.currentUser!.uid;
       await firebaseAuth.currentUser!.delete();
+      return uid;
     } on FirebaseAuthException catch (e) {
       avoidLog(e);
       throw FirebaseCustomException.handleAuthError(e);

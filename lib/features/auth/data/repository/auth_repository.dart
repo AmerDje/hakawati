@@ -17,6 +17,10 @@ abstract class AuthRepository {
     String email,
     String password,
   );
+  Future<Either<Failure, void>> temporaryLogin(
+    String email,
+    String password,
+  );
   Future<Either<Failure, UserModel>> signinWithGoogle();
   Future<Either<Failure, UserModel>> signinWithFacebook();
   Future<Either<Failure, bool>> deleteUser();
@@ -24,7 +28,9 @@ abstract class AuthRepository {
     required UserModel user,
     required String endPoint,
   });
-  Future addUserData({
+
+  Future<void> deleteUserData({required String uid, required String endPoint});
+  Future<void> addUserData({
     required UserModel user,
     required String endPoint,
   });
@@ -36,6 +42,6 @@ abstract class AuthRepository {
   Future<Either<Failure, UserModel>> signinWithApple();
   Future<Either<Failure, bool>> sendEmailVerification();
   Future<Either<Failure, bool>> reloadUserStatus();
-  Future logout();
+  Future<Either<Failure, bool>> logout();
   Future<Either<Failure, String>> uploadImage(File image);
 }

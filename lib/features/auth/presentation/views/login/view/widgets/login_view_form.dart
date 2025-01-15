@@ -2,12 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hakawati/config/locale/locale.dart';
+import 'package:hakawati/core/services/service_locator.dart';
 import 'package:hakawati/core/utils/utils.dart';
 import 'package:hakawati/core/utils/validators.dart';
 import 'package:hakawati/core/widgets/widgets.dart';
+import 'package:hakawati/features/auth/data/models/user.dart';
 import 'package:hakawati/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:hakawati/features/auth/presentation/views/login/manager/login_cubit.dart';
+import 'package:hakawati/features/auth/presentation/views/register/manager/register_cubit.dart'
+    hide SignInWithGoogleSuccess, SignInWithGoogleFailure, SignInWithFacebookSuccess, SignInWithFacebookFailure;
 import 'package:hakawati/features/auth/presentation/views/register/view/register_view.dart';
+import 'package:hakawati/features/auth/presentation/views/register/view/widgets/email_verification_screen.dart';
 import 'package:hakawati/features/auth/presentation/views/widgets/auth_bottom.dart';
 import 'package:hakawati/features/auth/presentation/views/widgets/auth_checkbox.dart';
 import 'package:hakawati/features/auth/presentation/views/widgets/auth_divider.dart';
@@ -98,22 +103,14 @@ class _LoginViewFormState extends State<LoginViewForm> {
                 ),
                 BlocConsumer<LoginCubit, LoginState>(
                   listener: (context, state) {
-                    if (state is LoginSuccess ||
-                        state is SignInWithFacebookSuccess ||
-                        state is SignInWithGoogleSuccess) {
-                      if (isRemembered) {
-                        context.read<AuthCubit>().updateAuthStatus({
-                          "user": state.user!.toJson(),
-                          "token": state.user!.uid.toString(),
-                        });
+                    if (state is SignInWithFacebookSuccess || state is SignInWithGoogleSuccess) {
+                      _navigateToHome(state.user!, context, isRemembered);
+                    } else if (state is LoginSuccess) {
+                      if (state.user!.emailVerified == true) {
+                        _navigateToHome(state.user!, context, isRemembered);
                       } else {
-                        context.read<AuthCubit>().updateAuthStatus({
-                          "user": state.user!.toJson(),
-                          "token": state.user!.uid.toString(),
-                          "isRemembered": false,
-                        });
+                        __navigateToEmailVerification(context);
                       }
-                      context.go(const BottomNavbarView());
                     } else if (state is LoginFailure ||
                         state is SignInWithFacebookFailure ||
                         state is SignInWithGoogleFailure) {
@@ -159,5 +156,31 @@ class _LoginViewFormState extends State<LoginViewForm> {
             ),
           ),
         ));
+  }
+
+  void _navigateToHome(UserModel user, BuildContext context, bool isRemembered) async {
+    if (isRemembered) {
+      context.read<AuthCubit>().updateAuthStatus({
+        "user": user.toJson(),
+        "token": user.uid.toString(),
+      });
+    } else {
+      context.read<AuthCubit>().updateAuthStatus({
+        "user": user.toJson(),
+        "token": user.uid.toString(),
+        "isRemembered": false,
+      });
+    }
+    context.go(const BottomNavbarView());
+  }
+
+  void __navigateToEmailVerification(BuildContext context) async {
+    context.go(BlocProvider(
+      create: (context) => sl.get<RegisterCubit>()..sendEmailVerification(),
+      child: EmailVerificationScreen(
+        email: email!,
+        password: password!,
+      ),
+    ));
   }
 }
