@@ -45,5 +45,25 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+		<key>CFBundleURLSchemes</key>
+		<array>
+			<string>fb424546323542921</string>
+			<string>com.googleusercontent.apps.931553885480-jj2nprkepr2p396rith691tnbr225jve</string>
+		</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>424546323542921</string>
+	<key>FacebookClientToken</key>
+	<string>34e8629e71881a35137eeaa2226f2e68</string>
+	<key>FacebookDisplayName</key>
+	<string>Hakawati</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs to access your photo library to take user pictures for profile photos. This will allow you to create a more personalized profile.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs to access your camera to take user pictures for profile photos. This will allow you to create a more personalized profile.</string>
 </dict>
 </plist>

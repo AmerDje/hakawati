@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hakawati AI</string>
+    <string name="facebook_app_id">424546323542921</string>
+    <string name="fb_login_protocol_scheme">fb424546323542921</string>
+    <string name="facebook_client_token">34e8629e71881a35137eeaa2226f2e68</string>
+</resources>

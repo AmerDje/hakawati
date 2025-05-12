@@ -1,0 +1,101 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hakawati/config/locale/locale.dart';
+import 'package:hakawati/core/utils/utils.dart';
+import 'package:hakawati/core/widgets/widgets.dart';
+import 'package:hakawati/features/settings/presentation/manager/settings_cubit.dart';
+import 'package:hakawati/features/settings/presentation/views/onboarding/onboarding.dart';
+
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
+  static const routeName = '/onboarding_view';
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  int _currentPage = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final translate = AppLocalizations.of(context)!.translate;
+    return GradientScaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: context.height * .85,
+                child: Stack(
+                  children: [
+                    PageView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      onPageChanged: (value) => setState(() {
+                        _currentPage = value;
+                      }),
+                      itemBuilder: (context, index) =>
+                          OnboardingItem(onboardingEntity: Constants.kOnboardingData[index]),
+                      itemCount: Constants.kOnboardingData.length,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Positioned(
+                      top: context.height * .6,
+                      left: 0,
+                      right: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: _buildPageIndicator(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomElevatedButton(
+                  onPressed: () {
+                    context.read<SettingsCubit>().closeOnBoarding();
+                  },
+                  child: Text(
+                    translate("get_started"),
+                    style: Styles.fontStyle16(context).copyWith(color: Theme.of(context).secondaryHeaderColor),
+                  )),
+              // CustomTextButton(
+              //   onPressed: () {
+              //     context.read<SettingsCubit>().closeOnBoarding();
+              //   },
+              //   btnText: translate("already_have_account"),
+              // )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildPageIndicator() {
+    List<Widget> indicators = [];
+    for (int i = 0; i < Constants.kOnboardingData.length; i++) {
+      indicators.add(
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          width: _currentPage == i ? 24 : 14,
+          height: _currentPage == i ? 24 : 14,
+          margin: const EdgeInsets.symmetric(horizontal: 5),
+          decoration: ShapeDecoration(
+            shape: const OvalBorder(),
+            color: _currentPage == i ? Colors.black.withOpacity(0.5) : AppColors.disabledItemColor,
+          ),
+          child: _currentPage == i
+              ? Icon(Icons.dark_mode, color: Theme.of(context).secondaryHeaderColor)
+              : const SizedBox(),
+        ),
+      );
+    }
+    return indicators;
+  }
+}

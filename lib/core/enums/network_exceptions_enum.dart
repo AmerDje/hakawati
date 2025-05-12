@@ -1,0 +1,22 @@
+/// Enum for different types of network exceptions.
+enum NetworkFailureType {
+  backend,
+  unauthorized,
+  forbidden,
+  notFound,
+  conflict,
+  internal,
+  serviceUnavailable,
+  timeOut,
+  noInternet,
+  unknown,
+  success,
+  noContent,
+  badRequest,
+  connectionTimeout,
+  cancel,
+  receiveTimeout,
+  sendTimeout,
+  noInternetConnection,
+  badCertificate,
+}
