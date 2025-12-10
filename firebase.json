@@ -3,18 +3,18 @@
     "platforms": {
       "android": {
         "default": {
-          "projectId": "hakawati-ai",
-          "appId": "1:931553885480:android:7892ee063150ce3dbee41d",
+          "projectId": "your-project-id",
+          "appId": "1:your-app-id:android:your-app-id",
           "fileOutput": "android/app/google-services.json"
         }
       },
       "dart": {
         "lib/firebase_options.dart": {
-          "projectId": "hakawati-ai",
+          "projectId": "your-project-id",
           "configurations": {
-            "android": "1:931553885480:android:7892ee063150ce3dbee41d",
-            "ios": "1:931553885480:ios:17d5dbbf1555cd9cbee41d",
-            "web": "1:931553885480:web:614e79d208b0b345bee41d"
+            "android": "1:your-app-id:android:your-app-id",
+            "ios": "1:your-app-id:ios:your-app-id",
+            "web": "1:your-app-id:web:your-app-id"
           }
         }
       }
