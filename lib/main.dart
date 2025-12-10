@@ -27,7 +27,9 @@ void main() async {
   await Prefs.init();
   ServicesLocator.init();
   HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationDocumentsDirectory(),
+    storageDirectory: HydratedStorageDirectory(
+      (await getApplicationDocumentsDirectory()).path,
+    ),
   );
 
   Bloc.observer = AppBlocObserver(
@@ -65,7 +67,8 @@ class MainApp extends StatelessWidget {
           locale: Locale(settings.locate),
           debugShowCheckedModeBanner: false,
           supportedLocales: AppLocalizationsSetup.supportedLocales,
-          localeResolutionCallback: AppLocalizationsSetup.localeResolutionCallback,
+          localeResolutionCallback:
+              AppLocalizationsSetup.localeResolutionCallback,
           localizationsDelegates: AppLocalizationsSetup.localizationsDelegates,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
@@ -85,7 +88,8 @@ class MainApp extends StatelessWidget {
       return const ChangeLanguageView();
     } else if (state.enableOnBoarding) {
       return const OnboardingScreen();
-    } else if (authState.status == AuthStatus.unauthenticated || authState.status == AuthStatus.unknown) {
+    } else if (authState.status == AuthStatus.unauthenticated ||
+        authState.status == AuthStatus.unknown) {
       return const LoginView();
     } else if (authState.user.emailVerified != true) {
       return BlocProvider(
