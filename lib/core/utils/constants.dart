@@ -5,7 +5,7 @@ import 'package:hakawati/features/settings/data/entities/onboarding_entity.dart'
 abstract class Constants {
   static const kTransitionDuration = Duration(milliseconds: 250);
 
-  static const kBaseUrl = 'https://hakawati-api.herokuapp.com/api/v1';
+  static const kBaseUrl = 'https://my-base-url.com/api/v1';
   static const kWinterDrink = 'Winter Drink';
   static const kQuicksand = 'Quicksand';
   static const kLalezar = 'Lalezar';
