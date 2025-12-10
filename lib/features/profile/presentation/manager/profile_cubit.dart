@@ -43,9 +43,15 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> updateUser(UserModel user) async {
     emit(UpdateUserProfileLoading());
     final result = await authRepository.updateUserData(user: user, endPoint: Endpoints.users);
+
     result.fold(
       (failure) => emit(UpdateUserProfileFailure(errMessage: failure.message)),
-      (user) => emit(UpdateUserProfileSuccess(user: user)),
+      (success) {
+        final res = authRepository.getUserData(uid: user.uid!, endPoint: Endpoints.users);
+        res.then(
+          (value) => emit(UpdateUserProfileSuccess(user: value)),
+        );
+      },
     );
   }
 }
