@@ -11,14 +11,15 @@ class ThemeSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Switch.adaptive(
-      activeColor: Theme.of(context).secondaryHeaderColor,
+      activeTrackColor: Theme.of(context).secondaryHeaderColor,
       thumbColor: WidgetStateProperty.all(AppColors.primaryColorDark),
-      thumbIcon: WidgetStateProperty.all(context.read<SettingsCubit>().isDarkMode
-          ? const Icon(Icons.dark_mode)
-          : const Icon(
-              Icons.light_mode,
-              color: AppColors.secondaryColorDark,
-            )),
+      thumbIcon:
+          WidgetStateProperty.all(context.read<SettingsCubit>().isDarkMode
+              ? const Icon(Icons.dark_mode)
+              : const Icon(
+                  Icons.light_mode,
+                  color: AppColors.secondaryColorDark,
+                )),
       value: context.watch<SettingsCubit>().isDarkMode,
       onChanged: (value) {
         context.read<SettingsCubit>().toggleTheme();
