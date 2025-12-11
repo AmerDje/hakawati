@@ -33,7 +33,7 @@ The app allows users to **sign up**, **log in**, and **update their profiles** v
 
 | Home | Story Details | Profile |
 |------|----------------|----------|
-| ![Home](screenshots/Screenshot_1722674365.png) | ![Story](screenshots/Screenshot_1722674572.png) | ![Profile](screenshots/Screenshot_1722674507.png) |
+| ![Home](screenshots/Screenshot_1722674365.png) | ![Story](screenshots/Screenshot_1722674572.png) | ![Profile](screenshots/Screenshot_1722674460.png) |
 
 ---
 
